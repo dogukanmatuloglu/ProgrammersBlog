@@ -19,7 +19,7 @@ namespace ProgrammersBlog.Data.Concrete.EntityFramework.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"data source=.;database=student;integrated security=SSPI");
+            optionsBuilder.UseSqlServer(@"data source=.;database=ProgrammersBlog;integrated security=SSPI");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
