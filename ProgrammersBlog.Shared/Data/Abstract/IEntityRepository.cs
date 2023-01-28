@@ -10,8 +10,8 @@ namespace ProgrammersBlog.Shared.Data.Abstract
 {
     public interface IEntityRepository<T> where T : class, IEntity, new()
     {
-        Task<T> GetAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, bool>>[] includeProperties);
-        Task<IList<T>> GetAll(Expression<Func<T,bool>> predicate=null, params Expression<Func<T, bool>>[] includeProperties);
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
+        Task<IList<T>> GetAll(Expression<Func<T,bool>> predicate=null, params Expression<Func<T, object>>[] includeProperties);
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
