@@ -23,8 +23,8 @@ namespace ProgrammersBlog.Data.Concrete.EntityFramework.Mappings
 
             builder.Property(r => r.CreatedByName).IsRequired();
             builder.Property(r => r.CreatedByName).HasMaxLength(50);
-            builder.Property(r => r.ModifieddByName).IsRequired();
-            builder.Property(r => r.ModifieddByName).HasMaxLength(50);
+            builder.Property(r => r.ModifiedByName).IsRequired();
+            builder.Property(r => r.ModifiedByName).HasMaxLength(50);
             builder.Property(r => r.CreatedDate).IsRequired();
             builder.Property(r => r.ModifiedDate).IsRequired();
             builder.Property(r => r.IsActive).IsRequired();
@@ -32,6 +32,22 @@ namespace ProgrammersBlog.Data.Concrete.EntityFramework.Mappings
             builder.Property(r => r.Note).HasMaxLength(500);
 
             builder.ToTable("Roles");
+            builder.HasData(new Role
+            {
+                Id = 1,
+                Name = "Admin",
+                Description = "Admin Rolu Tüm Haklara Sahiptir",
+                IsActive = true,
+                IsDeleted = false,
+                CreatedByName = "InitialCreate",
+                ModifiedByName="InitialCreate",
+                CreatedDate=DateTime.Now,
+                ModifiedDate=DateTime.Now,
+                Note="Admin Rolüdür"
+
+            });
+
+
         }
     }
 }

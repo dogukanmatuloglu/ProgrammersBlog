@@ -20,8 +20,8 @@ namespace ProgrammersBlog.Data.Concrete.EntityFramework.Mappings
             builder.Property(c => c.Description).HasMaxLength(500);
             builder.Property(a => a.CreatedByName).IsRequired();
             builder.Property(a => a.CreatedByName).HasMaxLength(50);
-            builder.Property(a => a.ModifieddByName).IsRequired();
-            builder.Property(a => a.ModifieddByName).HasMaxLength(50);
+            builder.Property(a => a.ModifiedByName).IsRequired();
+            builder.Property(a => a.ModifiedByName).HasMaxLength(50);
             builder.Property(a => a.CreatedDate).IsRequired();
             builder.Property(a => a.ModifiedDate).IsRequired();
             builder.Property(a => a.IsActive).IsRequired();
