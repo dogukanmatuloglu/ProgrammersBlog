@@ -39,7 +39,7 @@ namespace ProgrammersBlog.Shared.Data.Concrete.EntityFramework
             await Task.Run(() => { _context.Set<TEntity>().Remove(entity); });
         }
 
-        public async Task<IList<TEntity>> GetAll(Expression<Func<TEntity, bool>> predicate = null, params Expression<Func<TEntity, object>>[] includeProperties)
+        public async Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             IQueryable<TEntity> query = _context.Set<TEntity>();
             if (predicate != null)
