@@ -74,7 +74,7 @@ namespace ProgrammersBlog.Services.Concrete
             var categories = await _unitOfWork.Categories.GetAllAsync(null, c => c.Articles);
             if (categories.Count > -1)
             {
-                return new DataResult<CategoryListDto>(ResultStatus.Succes, new CategoryListDto { Categories = categories, ResultStatus = ResultStatus.Error , Message = "Hiç bir kategori bulunamadı" });
+                return new DataResult<CategoryListDto>(ResultStatus.Succes, new CategoryListDto { Categories = categories, ResultStatus = ResultStatus.Succes , Message = "Hiç bir kategori bulunamadı" });
             }
             return new DataResult<CategoryListDto>(ResultStatus.Error, "Hiç bir kategori bulunamadı", new CategoryListDto { Categories=categories,ResultStatus=ResultStatus.Error,Message= "Hiç bir kategori bulunamadı" });
         }
