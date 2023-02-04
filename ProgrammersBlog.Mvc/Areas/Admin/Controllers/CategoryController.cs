@@ -16,12 +16,11 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var result=await _categoryService.GetAll();
-            if (result.ResultStatus==ResultStatus.Succes)
-            {
-                return View(result.Data);
-            }
-            return View();
+            var result = await _categoryService.GetAll();
+
+            return View(result.Data);
+
+
         }
     }
 }
