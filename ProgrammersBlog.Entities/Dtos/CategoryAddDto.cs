@@ -16,12 +16,14 @@ namespace ProgrammersBlog.Entities.Dtos
         [MinLength(3,ErrorMessage ="{0} {1} karakterden az olmamalıdır.")]
         public string Name { get; set; }
 
-        [DisplayName("Kategori Açıklaması")]       
+        [DisplayName("Kategori Açıklaması")]
+        [Required(ErrorMessage = "{0} boş geçilmemelidir")]
         [MaxLength(500, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
         [MinLength(3, ErrorMessage = "{0} {1} karakterden az olmamalıdır.")]
         public string Description { get; set; }
 
         [DisplayName("Kategori Özel Not Alanı")]
+        [Required(ErrorMessage = "{0} boş geçilmemelidir")]
         [MaxLength(500, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
         [MinLength(3, ErrorMessage = "{0} {1} karakterden az olmamalıdır.")]
         public string Note { get; set; }
