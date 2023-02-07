@@ -14,6 +14,9 @@
             Kategoriler
         </div>
         <div class="card-body">
+            <div class="spinner-border" role="status" style="display:none">
+                <span class="sr-only">Yükleniyor...</span>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered" id="categoriesTable" width="100%" cellspacing="0">
                     <thead>
@@ -356,7 +359,7 @@
 
                         $.get(url).done(function(data) {
                             placeHolderDiv.html(data);
-                            
+
                             placeHolderDiv.find(".modal").modal('show');
                         });
                     });
@@ -375,17 +378,17 @@
                                 if (isValid) {
                                     placeHolderDiv.find('.modal').modal('hide');
                                     const newTableRow = `<tr>
-                                                <td>${categoryAddAjaxModel.CategoryDto.Category.Id}</td>
-                                                <td>${categoryAddAjaxModel.CategoryDto.Category.Name}</td>
-                                                <td>${categoryAddAjaxModel.CategoryDto.Category.Description}</td>
-                                                <td>${convertFirstLetterToUpperCase(categoryAddAjaxModel.CategoryDto.Category.IsActive.toString())}</td>
-                                                <td>${convertFirstLetterToUpperCase(categoryAddAjaxModel.CategoryDto.Category.IsDeleted.toString())}</td>
-                                                <td>${categoryAddAjaxModel.CategoryDto.Category.Note}</td>
-                                                <td>${convertToShortDate(categoryAddAjaxModel.CategoryDto.Category.CreatedDate)}</td>
-                                                <td>${categoryAddAjaxModel.CategoryDto.Category.CreatedByName}</td>
-                                                <td>${convertToShortDate(categoryAddAjaxModel.CategoryDto.Category.ModifiedDate)}</td>
-                                                <td>${categoryAddAjaxModel.CategoryDto.Category.ModifiedByName}</td>
-                                                </tr>`;
+                                                        <td>${categoryAddAjaxModel.CategoryDto.Category.Id}</td>
+                                                        <td>${categoryAddAjaxModel.CategoryDto.Category.Name}</td>
+                                                        <td>${categoryAddAjaxModel.CategoryDto.Category.Description}</td>
+                                                        <td>${convertFirstLetterToUpperCase(categoryAddAjaxModel.CategoryDto.Category.IsActive.toString())}</td>
+                                                        <td>${convertFirstLetterToUpperCase(categoryAddAjaxModel.CategoryDto.Category.IsDeleted.toString())}</td>
+                                                        <td>${categoryAddAjaxModel.CategoryDto.Category.Note}</td>
+                                                        <td>${convertToShortDate(categoryAddAjaxModel.CategoryDto.Category.CreatedDate)}</td>
+                                                        <td>${categoryAddAjaxModel.CategoryDto.Category.CreatedByName}</td>
+                                                        <td>${convertToShortDate(categoryAddAjaxModel.CategoryDto.Category.ModifiedDate)}</td>
+                                                        <td>${categoryAddAjaxModel.CategoryDto.Category.ModifiedByName}</td>
+                                                        </tr>`;
                                     const newTableRowObject = $(newTableRow);
                                     newTableRowObject.hide();
                                     $('#categoriesTable').append(newTableRowObject);
@@ -393,12 +396,12 @@
                                     toastr.success(`${categoryAddAjaxModel.CategoryDto.Category.Message}`, 'Başarılı İşlem');
 
                                 } else {
-                                    let summaryText='';
+                                    let summaryText = '';
                                     $('#validation-summary > ul > li').each(function() {
                                         let text = $(this).text();
                                         summaryText += `*${text}\n`;
                                     });
-                                   
+
                                     toastr.warning(summaryText);
                                 }
                             });
