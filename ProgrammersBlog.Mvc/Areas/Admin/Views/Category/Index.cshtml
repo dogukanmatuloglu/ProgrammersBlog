@@ -123,30 +123,37 @@
 
                                             console.log(category);
                                             tableBody += `<tr>
-                                                                <td>${category.Id}</td>
-                                                                <td>${category.Name}</td>
-                                                                <td>${category.Description}</td>
-                                                                <td>${convertFirstLetterToUpperCase(category.IsActive.toString())}</td>
-                                                                <td>${convertFirstLetterToUpperCase(category.IsDeleted.toString())}</td>
-                                                                <td>${category.Note}</td>
-                                                                <td>${convertToShortDate(category.CreatedDate)}</td>
-                                                                <td>${category.CreatedByName}</td>
-                                                                <td>${convertToShortDate(category.ModifiedDate)}</td>
-                                                                <td>${category.ModifiedByName}</td>
+                                                                        <td>${category.Id}</td>
+                                                                        <td>${category.Name}</td>
+                                                                        <td>${category.Description}</td>
+                                                                        <td>${convertFirstLetterToUpperCase(category.IsActive.toString())}</td>
+                                                                        <td>${convertFirstLetterToUpperCase(category.IsDeleted.toString())}</td>
+                                                                        <td>${category.Note}</td>
+                                                                        <td>${convertToShortDate(category.CreatedDate)}</td>
+                                                                        <td>${category.CreatedByName}</td>
+                                                                        <td>${convertToShortDate(category.ModifiedDate)}</td>
+                                                                        <td>${category.ModifiedByName}</td>
+                                                                        <td>
+                                            <button class="btn btn-primary btn-sm"><span class="fas fa-edit"></span>Düzenle</button>
+                                            <button class="btn btn-danger btn-sm btn-delete" data-id="${category.Id}"><span class="fas fa-minus-circle"></span>Sil</button>
+                                        </td>
 
-                                                            </tr>`
+                                                                    </tr>`
 
                                         });
                                         $('#categoriesTable > tbody').replaceWith(tableBody);
                                         $('.spinner-border').hide();
                                         $('#categoriesTable').fadeIn(1400);
                                     } else {
+
                                         toastr.error(`${categoryListDto.Message}`, 'İşlem Başarısız');
                                     }
                                 },
                                 error: function(err) {
                                     console.log(err);
-                                    toastr.error(`${err.statusText}`, 'İşlem Başarısız');
+                                     $('.spinner-border').hide();
+                                        $('#categoriesTable').fadeIn(1000);
+                                    toastr.error(`${err.responseText}`, 'Hata');
                                 }
                             });
                         }
@@ -427,17 +434,17 @@
                                 if (isValid) {
                                     placeHolderDiv.find('.modal').modal('hide');
                                     const newTableRow = `<tr>
-                                                                                        <td>${categoryAddAjaxModel.CategoryDto.Category.Id}</td>
-                                                                                        <td>${categoryAddAjaxModel.CategoryDto.Category.Name}</td>
-                                                                                        <td>${categoryAddAjaxModel.CategoryDto.Category.Description}</td>
-                                                                                        <td>${convertFirstLetterToUpperCase(categoryAddAjaxModel.CategoryDto.Category.IsActive.toString())}</td>
-                                                                                        <td>${convertFirstLetterToUpperCase(categoryAddAjaxModel.CategoryDto.Category.IsDeleted.toString())}</td>
-                                                                                        <td>${categoryAddAjaxModel.CategoryDto.Category.Note}</td>
-                                                                                        <td>${convertToShortDate(categoryAddAjaxModel.CategoryDto.Category.CreatedDate)}</td>
-                                                                                        <td>${categoryAddAjaxModel.CategoryDto.Category.CreatedByName}</td>
-                                                                                        <td>${convertToShortDate(categoryAddAjaxModel.CategoryDto.Category.ModifiedDate)}</td>
-                                                                                        <td>${categoryAddAjaxModel.CategoryDto.Category.ModifiedByName}</td>
-                                                                                        </tr>`;
+                                                                                                <td>${categoryAddAjaxModel.CategoryDto.Category.Id}</td>
+                                                                                                <td>${categoryAddAjaxModel.CategoryDto.Category.Name}</td>
+                                                                                                <td>${categoryAddAjaxModel.CategoryDto.Category.Description}</td>
+                                                                                                <td>${convertFirstLetterToUpperCase(categoryAddAjaxModel.CategoryDto.Category.IsActive.toString())}</td>
+                                                                                                <td>${convertFirstLetterToUpperCase(categoryAddAjaxModel.CategoryDto.Category.IsDeleted.toString())}</td>
+                                                                                                <td>${categoryAddAjaxModel.CategoryDto.Category.Note}</td>
+                                                                                                <td>${convertToShortDate(categoryAddAjaxModel.CategoryDto.Category.CreatedDate)}</td>
+                                                                                                <td>${categoryAddAjaxModel.CategoryDto.Category.CreatedByName}</td>
+                                                                                                <td>${convertToShortDate(categoryAddAjaxModel.CategoryDto.Category.ModifiedDate)}</td>
+                                                                                                <td>${categoryAddAjaxModel.CategoryDto.Category.ModifiedByName}</td>
+                                                                                                </tr>`;
                                     const newTableRowObject = $(newTableRow);
                                     newTableRowObject.hide();
                                     $('#categoriesTable').append(newTableRowObject);
@@ -461,10 +468,12 @@
             $(document).on('click', '.btn-delete', function(event) {
                 event.preventDefault();
                 const id = $(this).attr('data-id');
+                const tableRow = $(`[name="${id}"]`);
+                const categoryName = tableRow.find('td:eq(1)').text();
                 console.log(id);
                 Swal.fire({
                     title: 'Silmek istediğinize emin misiniz ?',
-                    text: "Seçili kategori silinecektir.",
+                    text: `${categoryName} adlı kategori silinecektir.`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -479,20 +488,20 @@
                             data: { categoryId: id },
                             url: '@Url.Action("Delete","Category")',
                             success: function(data) {
-                                const result = jQuery.parseJSON(data);
-                                if (result.ResultStatus === 0) {
+                                const categoryDto = jQuery.parseJSON(data);
+                                if (categoryDto.ResultStatus === 0) {
                                     console.log("result status 0 a eşit");
                                     Swal.fire(
                                         'Silindi!',
-                                        'Seçili kategori başarıyla silinmiştir..',
+                                        `${categoryDto.Category.Name} adlı kategori başarıyla silinmiştir.`,
                                         'success'
                                     );
-                                    const tableRow = $(`[name="${id}"]`);
+
                                     tableRow.fadeOut(3500);
                                 } else {
                                     Swal.fire({
                                         icon: 'error',
-                                        title: 'Bir hata oluştu!',
+                                        title: 'Başarısız İşlem',
                                         text: `{result.Message}`
 
                                     });
@@ -500,12 +509,13 @@
                             },
                             error: function(err) {
                                 console.log(err);
+                                toastr.error(`${err.responseText}`, 'Hata!');
                             }
 
                         })
                     }
-                })
-            })
+                });
+            });
         });
 
     </script>
