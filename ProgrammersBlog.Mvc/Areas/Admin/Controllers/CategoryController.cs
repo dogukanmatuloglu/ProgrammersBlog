@@ -63,5 +63,13 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             var categories = JsonSerializer.Serialize(result.Data,new JsonSerializerOptions { ReferenceHandler=ReferenceHandler.Preserve});
             return Json(categories);
         }
+
+        [HttpPost]
+        public async Task<JsonResult> Delete(int categorId)
+        {
+            var result = await _categoryService.Delete(categorId, "Doğukan Matuloğlu");
+            var ajaxResult = JsonSerializer.Serialize(result);
+            return Json(ajaxResult);
+        }
     }
 }

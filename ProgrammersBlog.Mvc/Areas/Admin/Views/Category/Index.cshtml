@@ -31,6 +31,7 @@
                             <th>Oluşturan Kullanıcı</th>
                             <th>Son Düzenlenme Tarihi</th>
                             <th>Son Düzenleyen Kullanıcı</th>
+                            <th>İşlemler</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -45,12 +46,13 @@
                             <th>Oluşturan Kullanıcı</th>
                             <th>Son Düzenlenme Tarihi</th>
                             <th>Son Düzenleyen Kullanıcı</th>
+                             <th>İşlemler</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @foreach (var category in Model.Categories)
                         {
-                            <tr>
+                            <tr name="@category.Id">
                                 <td>@category.Id</td>
                                 <td>@category.Name</td>
                                 <td>@category.Description</td>
@@ -61,6 +63,10 @@
                                 <td>@category.CreatedByName</td>
                                 <td>@category.ModifiedDate.ToShortDateString()</td>
                                 <td>@category.ModifiedByName</td>
+                                 <td>
+                                     <button class="btn btn-primary btn-sm"><span class="fas fa-edit"></span>Düzenle</button>
+                                     <button class="btn btn-danger btn-sm btn-delete" data-id="@category.Id"><span class="fas fa-minus-circle"></span>Sil</button>
+                                 </td>
 
                             </tr>
                         }
