@@ -9,7 +9,7 @@ builder.Services.AddControllersWithViews().AddJsonOptions(opt =>
 {
     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-});
+}).AddRazorRuntimeCompilation(); ;
 
 builder.Services.LoadMyServices();
 
