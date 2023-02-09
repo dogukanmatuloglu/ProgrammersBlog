@@ -27,11 +27,27 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
 
 
         }
+
         [HttpGet]
         public IActionResult Add()
         {
             return PartialView("_CategoryAddPartial");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int categoryId)
+        {
+            var result = await _categoryService.GetCategoryUpdateDto(categoryId);
+            if (result.ResultStatus==ResultStatus.Succes)
+            {
+                return PartialView("_CategoryUpdatePartial", result.Data);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Add(CategoryAddDto categoryAddDto)
         {
