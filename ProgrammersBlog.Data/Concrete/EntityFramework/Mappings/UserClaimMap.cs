@@ -14,10 +14,10 @@ namespace ProgrammersBlog.Data.Concrete.EntityFramework.Mappings
         public void Configure(EntityTypeBuilder<UserClaim> builder)
         {
             // Primary key
-            b.HasKey(uc => uc.Id);
+            builder.HasKey(uc => uc.Id);
 
             // Maps to the AspNetUserClaims table
-            b.ToTable("AspNetUserClaims");
+            builder.ToTable("AspNetUserClaims");
         }
     }
 }
