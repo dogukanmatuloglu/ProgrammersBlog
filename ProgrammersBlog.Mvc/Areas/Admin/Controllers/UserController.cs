@@ -26,5 +26,11 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                 ResultStatus=ResultStatus.Succes
             });
         }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return PartialView("_UserAddPartial");
+        }
     }
 }

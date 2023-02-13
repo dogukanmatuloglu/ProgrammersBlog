@@ -317,10 +317,10 @@
         }
     });
     /* DataTable burada bitiyor */
-        /* _CategoryAddPartialView modal olarak çağırılıyor */
+        /* _UserAddPartialView modal olarak çağırılıyor */
     $(function () {
 
-        const url = '/Admin/Category/Add/';
+        const url = '/Admin/User/Add/';
         const placeHolderDiv = $('#modalPlaceHolder');
 
         $('#btnAdd').click(function () {
@@ -331,7 +331,7 @@
                 placeHolderDiv.find(".modal").modal('show');
             });
         });
-        /* _CategoryAddPartialView modal olarak çağırılıyor burada bitti */
+        /* _UserAddPartialView modal olarak çağırılıyor burada bitti */
         /* _CategoryAddPartialView modal olarak çağırılıyor */
         placeHolderDiv.on('click', '#btnSave', function (event) {
             event.preventDefault();
