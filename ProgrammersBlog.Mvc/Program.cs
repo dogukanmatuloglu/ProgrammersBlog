@@ -10,7 +10,7 @@ builder.Services.AddControllersWithViews().AddJsonOptions(opt =>
     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 }).AddRazorRuntimeCompilation(); ;
-
+builder.Services.AddSession();
 builder.Services.LoadMyServices();
 
 builder.Services.AddAutoMapper(typeof(CategoryProfile),typeof(ArticleProfile));
@@ -28,13 +28,13 @@ if (!app.Environment.IsDevelopment())
 
     app.UseHsts();
 }
-
+app.UseSession();
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints => { endpoints.MapAreaControllerRoute(name: "Admin", areaName: "Admin", pattern: "Admin/{controller=Home}/{action=Index}/{id?}"); endpoints.MapDefaultControllerRoute(); } );
