@@ -14,8 +14,8 @@ builder.Services.AddSession();
 builder.Services.LoadMyServices();
 builder.Services.ConfigureApplicationCookie(opt =>
 {
-    opt.LoginPath = new PathString("Admin/User/Login");
-    opt.LogoutPath = new PathString("Admin/User/Logout");
+    opt.LoginPath = new PathString("/Admin/User/Login");
+    opt.LogoutPath = new PathString("/Admin/User/Logout");
     opt.Cookie = new CookieBuilder
     {
         Name = "ProgrammersBlog",
@@ -26,7 +26,7 @@ builder.Services.ConfigureApplicationCookie(opt =>
     };
     opt.SlidingExpiration = true;
     opt.ExpireTimeSpan = System.TimeSpan.FromDays(7);
-    opt.AccessDeniedPath = new PathString("Admin/User/AccessDenied");
+    opt.AccessDeniedPath = new PathString("/Admin/User/AccessDenied");
 
 });
 
