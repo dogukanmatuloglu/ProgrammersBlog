@@ -43,6 +43,6 @@ namespace ProgrammersBlog.Entities.Dtos
         [DataType(DataType.Upload)]
         public IFormFile PictureFile { get; set; }
 
-        public string Picture { get; set; }
+        public string Picture { get; set; } = String.Empty;
     }
 }
