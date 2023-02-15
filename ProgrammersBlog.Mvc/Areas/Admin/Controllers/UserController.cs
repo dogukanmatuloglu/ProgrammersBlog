@@ -39,13 +39,13 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         public async Task<string> ImageUpload(UserAddDto userAddDto)
         {
             string wwwroot = _env.WebRootPath;
-            string fileExtension = Path.GetExtension(userAddDto.Picture.FileName);
+            string fileExtension = Path.GetExtension(userAddDto.PictureFile.FileName);
             DateTime dateTime = DateTime.Now;
             string fileName=$"{userAddDto.UserName}_{dateTime.FullDateAndTimeStringWithUnderscore()}{fileExtension}";
             var path=Path.Combine($"{wwwroot}/img",fileName);
             await using(var stream=new FileStream(path, FileMode.Create))
             {
-                await userAddDto.Picture.CopyToAsync(stream);
+                await userAddDto.PictureFile.CopyToAsync(stream);
             }
 
             return fileName;
