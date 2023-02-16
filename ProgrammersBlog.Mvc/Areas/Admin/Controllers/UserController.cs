@@ -34,6 +34,18 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                 ResultStatus=ResultStatus.Succes
             });
         }
+        [HttpGet]
+        public async Task<JsonResult> GetAllUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var userListDto=JsonSerializer.Serialize(new UserListDto
+            {
+                Users = users,
+                ResultStatus = ResultStatus.Succes
+            },new JsonSerializerOptions { ReferenceHandler=System.Text.Json.Serialization.ReferenceHandler.Preserve});
+
+            return Json(userListDto);
+        }
 
         [HttpGet]
         public IActionResult Add()
