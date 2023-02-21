@@ -33,9 +33,9 @@ namespace ProgrammersBlog.Entities.Dtos
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
-        [DisplayName("Resim Ekle")]            
+        [DisplayName("Resim Ekle")]
         [DataType(DataType.Upload)]
-        public IFormFile PictureFile { get; set; }
+        public IFormFile? PictureFile { get; set; } 
 
         [DisplayName("Resim")]
         public string Picture { get; set; } = String.Empty;
