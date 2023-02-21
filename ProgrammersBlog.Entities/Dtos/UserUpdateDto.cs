@@ -38,6 +38,6 @@ namespace ProgrammersBlog.Entities.Dtos
         public IFormFile? PictureFile { get; set; } 
 
         [DisplayName("Resim")]
-        public string Picture { get; set; } = String.Empty;
+        public string Picture { get; set; } 
     }
 }
