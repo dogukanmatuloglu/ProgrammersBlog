@@ -43,6 +43,13 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         {
             return View("UserLogin");
         }
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home", new {Area=""});
+        }
 
         [HttpPost]
         public async Task<IActionResult> Login(UserLoginDto userLoginDto)
