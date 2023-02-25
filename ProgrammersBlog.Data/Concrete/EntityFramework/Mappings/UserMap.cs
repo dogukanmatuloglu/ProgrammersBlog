@@ -69,7 +69,7 @@ namespace ProgrammersBlog.Data.Concrete.EntityFramework.Mappings
 
             var editorUser = new User
             {
-                Id = 1,
+                Id = 2,
                 UserName = "editoruser",
                 NormalizedUserName = "EDITORUSER",
                 Email = "editoruser@gmail.com",
