@@ -27,7 +27,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             _signInManager = signInManager;
         }
 
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -79,7 +79,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<JsonResult> GetAllUsers()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -93,12 +93,12 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             return PartialView("_UserAddPartial");
         }
-
+        [Authorize(Roles = "Admin")]
         public  async Task<JsonResult> Delete(int userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -180,7 +180,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<PartialViewResult> Update(int userId)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -250,7 +250,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<string> ImageUpload(string userName,IFormFile pictureFile)
         {
             string wwwroot = _env.WebRootPath;
@@ -266,7 +266,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             return fileName;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin,Editor")]
         public bool ImageDelete(string pictureName)
         {
             string wwwroot = _env.WebRootPath;
