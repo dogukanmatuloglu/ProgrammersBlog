@@ -339,6 +339,14 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                         TempData.Add("SuccessMessage", $"Şifreniz Başarıyla Değiştirilmiştir.");
                         return View();
                     }
+                    else
+                    {
+                        foreach (var item in result.Errors)
+                        {
+                            ModelState.AddModelError("", item.Description);
+                        }
+                        return View(userPasswordChangeDto);
+                    }
                 }
                 else
                 {
@@ -352,7 +360,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                 return View(userPasswordChangeDto);
             }
 
-            return View();
+          
         }
 
         [Authorize(Roles = "Admin,Editor")]
