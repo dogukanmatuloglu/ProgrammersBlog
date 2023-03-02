@@ -16,10 +16,9 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
     public class UserController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private readonly IWebHostEnvironment _env;
         private readonly IMapper _mapper;
         private readonly SignInManager<User> _signInManager;
-        public UserController(UserManager<User> userManager, IWebHostEnvironment env, IMapper mapper, SignInManager<User> signInManager)
+        public UserController(UserManager<User> userManager, IMapper mapper, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _env = env;
@@ -366,17 +365,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         [Authorize(Roles = "Admin,Editor")]
         public async Task<string> ImageUpload(string userName,IFormFile pictureFile)
         {
-            string wwwroot = _env.WebRootPath;
-            string fileExtension = Path.GetExtension(pictureFile.FileName);
-            DateTime dateTime = DateTime.Now;
-            string fileName=$"{userName}_{dateTime.FullDateAndTimeStringWithUnderscore()}{fileExtension}";
-            var path=Path.Combine($"{wwwroot}/img",fileName);
-            await using(var stream=new FileStream(path, FileMode.Create))
-            {
-                await pictureFile.CopyToAsync(stream);
-            }
-
-            return fileName;
+           
         }
         [HttpGet]
         public ViewResult AccessDenied()
