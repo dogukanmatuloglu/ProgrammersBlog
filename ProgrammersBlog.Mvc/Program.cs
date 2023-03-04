@@ -1,4 +1,6 @@
 using ProgrammersBlog.Mvc.AutoMapper.Profiles;
+using ProgrammersBlog.Mvc.Helpers;
+using ProgrammersBlog.Mvc.Helpers.Abstract;
 using ProgrammersBlog.Services.AutoMapper.Profiles;
 using ProgrammersBlog.Services.Extensions;
 using System.Text.Json.Serialization;
@@ -13,6 +15,7 @@ builder.Services.AddControllersWithViews().AddJsonOptions(opt =>
 }).AddRazorRuntimeCompilation(); ;
 builder.Services.AddSession();
 builder.Services.LoadMyServices();
+builder.Services.AddScoped<IImageHelper, ImageHelper>();
 builder.Services.ConfigureApplicationCookie(opt =>
 {
     opt.LoginPath = new PathString("/Admin/User/Login");
