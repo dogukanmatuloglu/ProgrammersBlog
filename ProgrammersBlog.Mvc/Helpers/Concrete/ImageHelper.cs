@@ -20,6 +20,31 @@ namespace ProgrammersBlog.Mvc.Helpers
           _wwwroot = _env.WebRootPath;
         }
 
+        public IDataResult<ImageDeletedDto> Delete(string pictureName)
+        {
+            
+            var filetodelete = Path.Combine($"{_wwwroot}/{imgFolder}", pictureName);
+            if (File.Exists(filetodelete))
+            {
+                var fileInfo = new FileInfo(filetodelete);
+
+                var imageDeletedDto = new ImageDeletedDto
+                {
+                    FullName = pictureName,
+                    Extension = fileInfo.Extension,
+                    Path = fileInfo.FullName,
+                    Size = fileInfo.Length,
+                };
+                File.Delete(filetodelete);
+
+                return new DataResult<ImageDeletedDto>(ResultStatus.Succes, imageDeletedDto);
+            }
+            else
+            {
+                return new DataResult<ImageDeletedDto>(ResultStatus.Error, "Böyle bir resim bulunamadı", null);
+            }
+        }
+
         public async Task<IDataResult<UploadedImageDto>> UploadUserImage(string userName, IFormFile pictureFile, string folderName="userImages")
         {
             if (!Directory.Exists($"{_wwwroot}/{imgFolder}/{folderName}"))
