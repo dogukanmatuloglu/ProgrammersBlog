@@ -40,7 +40,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         public async Task<IActionResult> Update(int categoryId)
         {
             var result = await _categoryService.GetCategoryUpdateDto(categoryId);
-            if (result.ResultStatus==ResultStatus.Succes)
+            if (result.ResultStatus==ResultStatus.Success)
             {
                 return PartialView("_CategoryUpdatePartial", result.Data);
             }
@@ -56,7 +56,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _categoryService.Update(categoryUpdateDto, "Doğukan Matuloğlu");
-                if (result.ResultStatus == ResultStatus.Succes)
+                if (result.ResultStatus == ResultStatus.Success)
                 {
                     var categoryUpdateAjaxModel = JsonSerializer.Serialize(new CategoryUpdateAjaxViewModel
                     {
@@ -82,7 +82,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _categoryService.Add(categoryAddDto, "Doğukan Matuloğlu");
-                if (result.ResultStatus == ResultStatus.Succes)
+                if (result.ResultStatus == ResultStatus.Success)
                 {
                     var categoryAddAjaxModel = JsonSerializer.Serialize(new CategoryAddAjaxViewModel
                     {

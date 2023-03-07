@@ -37,7 +37,7 @@ namespace ProgrammersBlog.Mvc.Helpers
                 };
                 File.Delete(filetodelete);
 
-                return new DataResult<ImageDeletedDto>(ResultStatus.Succes, imageDeletedDto);
+                return new DataResult<ImageDeletedDto>(ResultStatus.Success, imageDeletedDto);
             }
             else
             {
@@ -62,7 +62,7 @@ namespace ProgrammersBlog.Mvc.Helpers
                 await pictureFile.CopyToAsync(stream);
             }
 
-            return new DataResult<ImageUploadedDto>(ResultStatus.Succes,$"{userName} adlı kullanıcının resmi başarıyla yüklenmiştir.",new ImageUploadedDto
+            return new DataResult<ImageUploadedDto>(ResultStatus.Success,$"{userName} adlı kullanıcının resmi başarıyla yüklenmiştir.",new ImageUploadedDto
             {
                 FullName = $"{folderName}/{newFileName}",
                 OldName= oldFileName,

@@ -35,7 +35,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             return View(new UserListDto
             {
                 Users = users,
-                ResultStatus = ResultStatus.Succes
+                ResultStatus = ResultStatus.Success
             });
         }
 
@@ -95,7 +95,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             var userListDto = JsonSerializer.Serialize(new UserListDto
             {
                 Users = users,
-                ResultStatus = ResultStatus.Succes
+                ResultStatus = ResultStatus.Success
             }, new JsonSerializerOptions { ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve });
 
             return Json(userListDto);
@@ -117,7 +117,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                 var deletedUser = JsonSerializer.Serialize(new UserDto
                 {
                     User = user,
-                    ResultStatus = ResultStatus.Succes,
+                    ResultStatus = ResultStatus.Success,
                     Message = $"{user.UserName} adlı kullanıcı adına sahip kullancı başarıyla silinmiştir."
                 });
                 return Json(deletedUser);
@@ -146,7 +146,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var uploadedImageDtoResult = await _imageHelper.UploadUserImage(userAddDto.UserName, userAddDto.PictureFile);
-                userAddDto.Picture =uploadedImageDtoResult.ResultStatus== ResultStatus.Succes? uploadedImageDtoResult.Data.FullName: "userImages/defaultUser.png";
+                userAddDto.Picture =uploadedImageDtoResult.ResultStatus== ResultStatus.Success? uploadedImageDtoResult.Data.FullName: "userImages/defaultUser.png";
                 var user = _mapper.Map<User>(userAddDto);
                 var result = await _userManager.CreateAsync(user, userAddDto.Password);
                 if (result.Succeeded)
@@ -155,7 +155,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                     {
                         UserDto = new UserDto
                         {
-                            ResultStatus = ResultStatus.Succes,
+                            ResultStatus = ResultStatus.Success,
                             Message = $"{user.UserName} adlı kullanıcı adına sahip kullanıcı başarıyla eklenmiştir.",
                             User = user,
                         },
@@ -210,7 +210,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                 if (userUpdateDto.PictureFile != null)
                 {
                     var uploadedImageDtoResult = await _imageHelper.UploadUserImage(userUpdateDto.UserName, userUpdateDto.PictureFile);
-                    userUpdateDto.Picture = uploadedImageDtoResult.ResultStatus == ResultStatus.Succes ? uploadedImageDtoResult.Data.FullName : "userImages/defaultUser.png";
+                    userUpdateDto.Picture = uploadedImageDtoResult.ResultStatus == ResultStatus.Success ? uploadedImageDtoResult.Data.FullName : "userImages/defaultUser.png";
                     if (oldUserPicture != "userImages/defaultUser.png")
                     {
                         isNewPictureUploaded = true;
@@ -230,7 +230,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                     {
                         UserDto = new UserDto
                         {
-                            ResultStatus = ResultStatus.Succes,
+                            ResultStatus = ResultStatus.Success,
                             Message = $"{updatedUser.UserName} adlı kullanıcı başarıyla güncellenmiştir.",
                             User = updatedUser
                         },
@@ -275,7 +275,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                 if (userUpdateDto.PictureFile != null)
                 {
                     var uploadedImageDtoResult = await _imageHelper.UploadUserImage(userUpdateDto.UserName, userUpdateDto.PictureFile);
-                    userUpdateDto.Picture = uploadedImageDtoResult.ResultStatus == ResultStatus.Succes ? uploadedImageDtoResult.Data.FullName : "userImages/defaultUser.png";
+                    userUpdateDto.Picture = uploadedImageDtoResult.ResultStatus == ResultStatus.Success ? uploadedImageDtoResult.Data.FullName : "userImages/defaultUser.png";
                     if (oldUserPicture != "userImages/defaultUser.png")
                     {
                         isNewPictureUploaded = true;
