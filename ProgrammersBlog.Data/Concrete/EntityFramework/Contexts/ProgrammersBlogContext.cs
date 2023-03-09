@@ -15,11 +15,10 @@ namespace ProgrammersBlog.Data.Concrete.EntityFramework.Contexts
         public DbSet<Article> Articles { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
-     
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public ProgrammersBlogContext(DbContextOptions<ProgrammersBlogContext> dbContextOptions):base(dbContextOptions)
         {
-            optionsBuilder.UseSqlServer(@"data source=.;database=ProgrammersBlog;integrated security=SSPI");
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

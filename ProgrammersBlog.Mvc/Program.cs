@@ -14,7 +14,7 @@ builder.Services.AddControllersWithViews().AddJsonOptions(opt =>
     opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 }).AddRazorRuntimeCompilation(); ;
 builder.Services.AddSession();
-builder.Services.LoadMyServices();
+builder.Services.LoadMyServices(connectionString:builder.Configuration.GetValue<string>("ConnectionStrings:LocalDB"));
 builder.Services.AddScoped<IImageHelper, ImageHelper>();
 builder.Services.ConfigureApplicationCookie(opt =>
 {
