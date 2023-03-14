@@ -188,7 +188,7 @@ namespace ProgrammersBlog.Data.Migrations
                     Content = table.Column<string>(type: "NVARCHAR(MAX)", nullable: false),
                     Thumbnail = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ViewsCount = table.Column<int>(type: "int", nullable: false),
+                    ViewCount = table.Column<int>(type: "int", nullable: false),
                     CommentCount = table.Column<int>(type: "int", nullable: false),
                     SeoAuthor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     SeoDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),

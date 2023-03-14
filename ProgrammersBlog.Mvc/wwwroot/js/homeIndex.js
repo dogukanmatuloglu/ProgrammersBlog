@@ -243,6 +243,8 @@
                 "removeConfirm": "Görünümü silmek istediğinize emin misiniz?",
                 "removeError": "Görünüm silinemedi"
             }
-        }
-    })
+        },
+        "order":[[4,"desc"]]
+    
+    });
 })
