@@ -54,7 +54,7 @@ namespace ProgrammersBlog.Services.Concrete
             }
         }
 
-        public async Task<IDataResult<int>> CountByIsDeleted()
+        public async Task<IDataResult<int>> CountByNonDeleted()
         {
             var categoriesCount = await _unitOfWork.Categories.CountAsync(c=>!c.IsDeleted);
             if (categoriesCount > -1)
