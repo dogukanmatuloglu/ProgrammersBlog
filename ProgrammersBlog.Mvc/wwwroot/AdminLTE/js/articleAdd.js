@@ -1,4 +1,7 @@
-﻿$(document).ready(function () {
+﻿
+
+$(document).ready(function () {
+    //Trumbowyg
     $('#text-editor').trumbowyg({
         btns: [
             ['viewHTML'],
@@ -19,4 +22,13 @@
             ['fontsize']
         ]
     });
-})
+    //Trumbowyg
+
+    //Select2
+
+    $('#categoryList').select2({
+        theme: 'bootstrap4',
+        placeholder: "Lütfen Bir Kategori Seçiniz..",
+        allowClear: true
+    });
+});
