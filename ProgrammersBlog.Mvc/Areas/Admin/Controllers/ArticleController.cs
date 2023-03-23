@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProgrammersBlog.Mvc.Areas.Admin.Models;
 using ProgrammersBlog.Services.Abstract;
 
 namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
@@ -7,10 +8,11 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
     public class ArticleController : Controller
     {
         private readonly IArticleService _articleService;
-
-        public ArticleController(IArticleService articleService)
+        private readonly ICategoryService _categoryService;
+        public ArticleController(IArticleService articleService, ICategoryService categoryService)
         {
             _articleService = articleService;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
@@ -25,9 +27,18 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            return View(); 
+            var result = await _categoryService.GetAllByNonDeletedAsync();
+            if (result.ResultStatus==Shared.Utilities.Results.ComplexTypes.ResultStatus.Success)
+            {
+                return View(new ArticleAddViewModel
+                {
+                    Categories=result.Data.Categories,
+                });
+            }
+            return NotFound();
+           
         }
     }
 }
