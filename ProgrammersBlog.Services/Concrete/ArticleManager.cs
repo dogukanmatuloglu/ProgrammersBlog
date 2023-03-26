@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ProgrammersBlog.Services.Utilities.Messages;
 
 namespace ProgrammersBlog.Services.Concrete
 {
@@ -177,6 +178,22 @@ namespace ProgrammersBlog.Services.Concrete
             else
             {
                 return new DataResult<int>(ResultStatus.Success, "Beklenmeyen Bir Hata Oluştu", -1);
+            }
+        }
+
+        public async Task<IDataResult<ArticleUpdateDto>> GetArticleUpdateDtoAsync(int articleId)
+        {
+            var result = await _unitOfWork.Articles.AnyAsync(a => a.Id == articleId);
+            if (result)
+            {
+                var article = await _unitOfWork.Articles.GetAsync(c => c.Id == articleId);
+                var articleUpdateDto = _mapper.Map<ArticleUpdateDto>(article);
+                return new DataResult<CategoryUpdateDto>(ResultStatus.Success, articleUpdateDto);
+
+            }
+            else
+            {
+                return new DataResult<ArticleUpdateDto>(ResultStatus.Success, Messages.Article.NotFound(false), null);
             }
         }
     }
