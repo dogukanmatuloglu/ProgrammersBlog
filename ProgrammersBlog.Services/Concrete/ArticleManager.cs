@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static ProgrammersBlog.Services.Utilities.Messages;
+using Article = ProgrammersBlog.Entities.Concrete.Article;
 
 namespace ProgrammersBlog.Services.Concrete
 {
@@ -188,7 +189,7 @@ namespace ProgrammersBlog.Services.Concrete
             {
                 var article = await _unitOfWork.Articles.GetAsync(c => c.Id == articleId);
                 var articleUpdateDto = _mapper.Map<ArticleUpdateDto>(article);
-                return new DataResult<CategoryUpdateDto>(ResultStatus.Success, articleUpdateDto);
+                return new DataResult<ArticleUpdateDto>(ResultStatus.Success, articleUpdateDto);
 
             }
             else

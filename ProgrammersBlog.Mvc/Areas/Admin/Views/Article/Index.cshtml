@@ -70,7 +70,7 @@
                             <td>@article.ModifiedDate.ToShortDateString()</td>
                             <td>@article.ModifiedByName</td>
                             <td>
-                                    <button class="btn btn-primary btn-sm btn-update " data-id="@article.Id"><span class="fas fa-edit"></span></button>
+                                    <a class="btn btn-primary btn-sm btn-update " data-id="@article.Id" asp-area="Admin" asp-action="Update" asp-controller="Article" asp-route-articleId="@article.Id"><span class="fas fa-edit"></span></a>
                                     <button class="btn btn-danger btn-sm  btn-delete" data-id="@article.Id"><span class="fas fa-minus-circle"></span></button>
                                 </td>
                         </tr>

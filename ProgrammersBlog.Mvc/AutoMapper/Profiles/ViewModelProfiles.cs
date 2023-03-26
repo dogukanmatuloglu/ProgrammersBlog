@@ -9,6 +9,7 @@ namespace ProgrammersBlog.Mvc.AutoMapper.Profiles
         public ViewModelProfiles()
         {
             CreateMap<ArticleAddViewModel, ArticleAddDto>();
+            CreateMap<ArticleUpdateDto, ArticleUpdateViewModel>().ReverseMap();
         }
     }
 }
