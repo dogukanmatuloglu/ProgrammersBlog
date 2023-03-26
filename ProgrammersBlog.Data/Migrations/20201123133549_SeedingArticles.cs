@@ -1,8 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
 namespace ProgrammersBlog.Data.Migrations
 {
     public partial class SeedingArticles : Migration
@@ -25,7 +23,7 @@ namespace ProgrammersBlog.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-           
+            
         }
     }
 }

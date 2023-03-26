@@ -34,7 +34,7 @@ builder.Services.ConfigureApplicationCookie(opt =>
 
 });
 
-builder.Services.AddAutoMapper(typeof(CategoryProfile),typeof(ArticleProfile),typeof(UserProfile));
+builder.Services.AddAutoMapper(typeof(CategoryProfile),typeof(ArticleProfile),typeof(UserProfile),typeof(ViewModelProfiles));
 
 
 var app = builder.Build();

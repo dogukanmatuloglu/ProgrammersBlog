@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using ProgrammersBlog.Entities.Dtos;
 using ProgrammersBlog.Mvc.Areas.Admin.Models;
+using ProgrammersBlog.Mvc.Helpers.Abstract;
 using ProgrammersBlog.Services.Abstract;
 
 namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
@@ -9,10 +12,14 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
     {
         private readonly IArticleService _articleService;
         private readonly ICategoryService _categoryService;
-        public ArticleController(IArticleService articleService, ICategoryService categoryService)
+        private readonly IMapper _mapper;
+        private readonly IImageHelper _imageHelper;
+        public ArticleController(IArticleService articleService, ICategoryService categoryService, IMapper mapper, IImageHelper imageHelper)
         {
             _articleService = articleService;
             _categoryService = categoryService;
+            _mapper = mapper;
+            _imageHelper = imageHelper;
         }
 
         [HttpGet]
@@ -31,6 +38,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         {
             var result = await _categoryService.GetAllByNonDeletedAsync();
             if (result.ResultStatus==Shared.Utilities.Results.ComplexTypes.ResultStatus.Success)
+            
             {
                 return View(new ArticleAddViewModel
                 {
@@ -39,6 +47,35 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             }
             return NotFound();
            
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(ArticleAddViewModel articleAddViewModel)
+        {
+           if (ModelState.IsValid)
+           {
+                var articleAddDto = _mapper.Map<ArticleAddDto>(articleAddViewModel);
+                var imageResult = await _imageHelper.Upload(articleAddViewModel.Title, articleAddViewModel.ThumbnailFile, Entities.Complex_Types.PictureType.Post);
+                articleAddDto.Thumbnail = imageResult.Data.FullName;
+                var result = await _articleService.AddAsync(articleAddDto, "Doğukan Matuloğlu");
+                if (result.ResultStatus==Shared.Utilities.Results.ComplexTypes.ResultStatus.Success)
+                {
+                    TempData.Add("SuccessMessage", result.Message);
+                    return RedirectToAction("Index", "Article");
+                }
+                else
+                {
+                    ModelState.AddModelError("",result.Message);
+                    return View(articleAddViewModel);
+                }
+            }
+            else
+            {
+                return View(articleAddViewModel );  
+            }
+               
+            
+
         }
     }
 }

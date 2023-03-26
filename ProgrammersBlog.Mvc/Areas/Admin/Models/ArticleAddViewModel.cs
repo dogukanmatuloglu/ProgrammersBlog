@@ -41,7 +41,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Models
         [DisplayName("Kategori")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir.")]
         public int CategoryId { get; set; }
-        public IList<Category> Categories { get; set; }
+        public IList<Category>? Categories { get; set; }
         [DisplayName("Aktif Mi?")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir.")]
         public bool IsActive { get; set; }
