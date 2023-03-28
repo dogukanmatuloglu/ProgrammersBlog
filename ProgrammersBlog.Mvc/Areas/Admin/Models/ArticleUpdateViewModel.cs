@@ -6,6 +6,8 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Models
 {
     public class ArticleUpdateViewModel
     {
+        [Required]
+        public int Id { get; set; }
         [DisplayName("Başlık")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir.")]
         [MaxLength(100, ErrorMessage = "{0} alanı {1} karakterden büyük olmamalıdır.")]
@@ -17,9 +19,8 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Models
         public string Content { get; set; }
         [DisplayName("Küçük Resim")]
         public string Thumbnail { get; set; }
-        [DisplayName("Küçük Resim Ekle")]
-        [Required(ErrorMessage = "{0} alanı boş geçilmemelidir.")]
-        
+
+        [DisplayName("Küçük Resim Ekle")]       
         public IFormFile ThumbnailFile { get; set; }
         [DisplayName("Tarih")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir.")]
@@ -47,5 +48,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Models
         [DisplayName("Aktif Mi?")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir.")]
         public bool IsActive { get; set; }
+        [Required]
+        public int UserId { get; set; }
     }
 }

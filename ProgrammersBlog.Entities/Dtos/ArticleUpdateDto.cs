@@ -59,5 +59,7 @@ namespace ProgrammersBlog.Entities.Dtos
         [DisplayName("Silinsin mi?")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir.")]
         public bool IsDeleted { get; set; }
+        [Required]
+        public int UserId { get; set; }
     }
 }
