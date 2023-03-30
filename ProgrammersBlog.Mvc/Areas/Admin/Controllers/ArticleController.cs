@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ProgrammersBlog.Entities.Complex_Types;
 using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Entities.Dtos;
@@ -132,6 +133,13 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             return View(articleUpdateViewModel);
           
 
+        }
+        [HttpPost]
+        public async Task<JsonResult> Delete(int id)
+        {
+            var result=await _articleService.DeleteAsync(id,LoggedInUser.UserName);
+            var articleResult = JsonConvert.SerializeObject(result);
+            return Json(articleResult);
         }
     }
 
