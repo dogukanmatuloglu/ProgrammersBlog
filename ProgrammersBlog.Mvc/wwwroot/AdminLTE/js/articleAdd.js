@@ -1,8 +1,9 @@
-﻿
+﻿$(document).ready(function () {
 
-$(document).ready(function () {
-    //Trumbowyg
+    // Trumbowyg
+
     $('#text-editor').trumbowyg({
+        lang: 'tr',
         btns: [
             ['viewHTML'],
             ['undo', 'redo'], // Only supported in Blink browsers
@@ -20,21 +21,35 @@ $(document).ready(function () {
             ['emoji'],
             ['fontfamily'],
             ['fontsize']
-        ]
+        ],
+        plugins: {
+            colors: {
+                foreColorList: [
+                    'ff0000', '00ff00', '0000ff','54e346'
+                ],
+                backColorList: [
+                    '000', '333', '555'
+                ],
+                displayAsList: false
+            }
+        }
     });
-    //Trumbowyg
 
-    //Select2
+    // Trumbowyg
+
+    // Select2
 
     $('#categoryList').select2({
         theme: 'bootstrap4',
-        placeholder: "Lütfen Bir Kategori Seçiniz..",
+        placeholder: "Lütfen bir kategori seçiniz...",
         allowClear: true
     });
 
-    //Select2
+    // Select2
 
-    //JQuery UI-DataPicker
+
+    // jQuery UI - DatePicker
+
     $(function () {
         $("#datepicker").datepicker({
             closeText: "kapat",
@@ -56,11 +71,12 @@ $(document).ready(function () {
             yearSuffix: "",
             duration: 1000,
             showAnim: "drop",
-            showOptions: {direction:"down"},
+            showOptions:{direction:"down"},
             minDate: -3,
-            maxDate:3
-
+            maxDate:+3
         });
     });
-     //JQuery UI-DataPicker
+
+
+    // jQuery UI - DatePicker
 });

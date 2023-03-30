@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ProgrammersBlog.Entities.Complex_Types;
 using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Entities.Dtos;
 using ProgrammersBlog.Mvc.Areas.Admin.Models;
 using ProgrammersBlog.Mvc.Helpers.Abstract;
 using ProgrammersBlog.Services.Abstract;
+using ProgrammersBlog.Shared.Utilities.Results.ComplexTypes;
 
 namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
 {
@@ -88,6 +90,47 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Update(ArticleUpdateViewModel articleUpdateViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bool isNewThumbnailUploaded = false;
+                var oldThumbnail=articleUpdateViewModel.Thumbnail;
+                if (articleUpdateViewModel.ThumbnailFile!=null)
+                {
+                    var uploadedImageResult = await ImageHelper.Upload(articleUpdateViewModel.Title, articleUpdateViewModel.ThumbnailFile, PictureType.Post);
+                    articleUpdateViewModel.Thumbnail = uploadedImageResult.ResultStatus == ResultStatus.Success ? uploadedImageResult.Data.FullName : "postImages/defaultThumbnail.jpg";
+                    if (oldThumbnail!="postImages/defaultThumbnail.jpg")
+                    {
+                        isNewThumbnailUploaded = true;
+                    }
+                   
+                }
+                var articleUpdateDto = Mapper.Map<ArticleUpdateDto>(articleUpdateViewModel);
+                var result = await _articleService.UpdateAsync(articleUpdateDto, LoggedInUser.UserName);
+                if (result.ResultStatus == ResultStatus.Success)
+                {
+                    if (isNewThumbnailUploaded)
+                    {
+                        ImageHelper.Delete(oldThumbnail);
+                    }
+                    TempData.Add("SuccessMessage", result.Message);
+                    return RedirectToAction("Index", "Article");
+                }
+                else
+                {
+                    ModelState.AddModelError("", result.Message);
+                }
+            }
+            var categories = await _categoryService.GetAllByNonDeletedAndActiveAsync();
+            articleUpdateViewModel.Categories = categories.Data.Categories;
+            return View(articleUpdateViewModel);
+          
 
         }
     }

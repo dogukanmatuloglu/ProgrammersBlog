@@ -31,6 +31,7 @@
                 </div>
                 <div class="card-body">
                     <input type="hidden"  asp-for="Id" />
+                    <input type="hidden" asp-for="UserId" />
                     <div class="form-group">
                         <label for="categoryList" asp-for="CategoryId">Kategori</label>
                         <select id="categoryList" class="form-control" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories,"Id","Name"))">
