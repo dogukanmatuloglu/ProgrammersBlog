@@ -5,6 +5,8 @@ using ProgrammersBlog.Services.AutoMapper.Profiles;
 using ProgrammersBlog.Services.Extensions;
 using System.Text.Json.Serialization;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -12,10 +14,11 @@ builder.Services.AddControllersWithViews().AddJsonOptions(opt =>
 {
     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-}).AddRazorRuntimeCompilation(); ;
+}).AddNToastNotifyNoty().AddRazorRuntimeCompilation(); 
 builder.Services.AddSession();
 builder.Services.LoadMyServices(connectionString:builder.Configuration.GetValue<string>("ConnectionStrings:LocalDB"));
 builder.Services.AddScoped<IImageHelper, ImageHelper>();
+
 builder.Services.ConfigureApplicationCookie(opt =>
 {
     opt.LoginPath = new PathString("/Admin/User/Login");
@@ -57,7 +60,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseNToastNotify();
 app.UseEndpoints(endpoints => { endpoints.MapAreaControllerRoute(name: "Admin", areaName: "Admin", pattern: "Admin/{controller=Home}/{action=Index}/{id?}"); endpoints.MapDefaultControllerRoute(); } );
 
 app.Run();

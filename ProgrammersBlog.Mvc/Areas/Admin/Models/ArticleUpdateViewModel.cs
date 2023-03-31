@@ -21,7 +21,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Models
         public string Thumbnail { get; set; }
 
         [DisplayName("Küçük Resim Ekle")]       
-        public IFormFile ThumbnailFile { get; set; }
+        public IFormFile? ThumbnailFile { get; set; }
         [DisplayName("Tarih")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir.")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
