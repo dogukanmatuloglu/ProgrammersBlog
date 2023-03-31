@@ -9,6 +9,8 @@ using ProgrammersBlog.Mvc.Areas.Admin.Models;
 using ProgrammersBlog.Mvc.Helpers.Abstract;
 using ProgrammersBlog.Services.Abstract;
 using ProgrammersBlog.Shared.Utilities.Results.ComplexTypes;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
 {
@@ -139,6 +141,17 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         {
             var result=await _articleService.DeleteAsync(id,LoggedInUser.UserName);
             var articleResult = JsonConvert.SerializeObject(result);
+            return Json(articleResult);
+        }
+        [HttpGet]
+        public async Task<JsonResult> GetAllArticles()
+        {
+            var articles = await _articleService.GetAllByNonDeletedAndActiveAsync();
+            var articleResult = System.Text.Json.JsonSerializer.Serialize(articles,new JsonSerializerOptions
+            {
+                ReferenceHandler=ReferenceHandler.Preserve
+            }); 
+
             return Json(articleResult);
         }
     }
