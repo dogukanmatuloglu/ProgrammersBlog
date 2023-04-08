@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using ProgrammersBlog.Data.Abstract;
+using ProgrammersBlog.Data.Concrete;
 using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Entities.Dtos;
 using ProgrammersBlog.Services.Abstract;
@@ -59,7 +60,7 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<CommentListDto>> GetAllAsync()
         {
-            var comments = await _unitOfWork.Comments.GetAllAsync();
+            var comments = await _unitOfWork.Comments.GetAllAsync(null,c=>c.Article);
             if (comments.Count > -1)
             {
                 return new DataResult<CommentListDto>(ResultStatus.Success, new CommentListDto
@@ -75,7 +76,7 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<CommentListDto>> GetAllByDeletedAsync()
         {
-            var comments = await _unitOfWork.Comments.GetAllAsync(c=>c.IsDeleted);
+            var comments = await _unitOfWork.Comments.GetAllAsync(c=>c.IsDeleted, c => c.Article);
             if (comments.Count > -1)
             {
                 return new DataResult<CommentListDto>(ResultStatus.Success, new CommentListDto
@@ -91,7 +92,7 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<CommentListDto>> GetAllByNonDeletedAsync()
         {
-            var comments = await _unitOfWork.Comments.GetAllAsync(c => !c.IsDeleted);
+            var comments = await _unitOfWork.Comments.GetAllAsync(c => !c.IsDeleted, c => c.Article);
             if (comments.Count > -1)
             {
                 return new DataResult<CommentListDto>(ResultStatus.Success, new CommentListDto
@@ -107,7 +108,7 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<CommentListDto>> GetAllByNonDeletedAndActiveAsync()
         {
-            var comments = await _unitOfWork.Comments.GetAllAsync(c => !c.IsDeleted&&c.IsActive);
+            var comments = await _unitOfWork.Comments.GetAllAsync(c => !c.IsDeleted&&c.IsActive, c => c.Article);
             if (comments.Count > -1)
             {
                 return new DataResult<CommentListDto>(ResultStatus.Success, new CommentListDto
@@ -138,6 +139,7 @@ namespace ProgrammersBlog.Services.Concrete
             var comment = _mapper.Map<CommentUpdateDto, Comment>(commentUpdateDto, oldComment);
             comment.ModifiedByName = modifiedByName;
             var updatedComment = await _unitOfWork.Comments.UpdateAsync(comment);
+            updatedComment.Article = await _unitOfWork.Articles.GetAsync(a => a.Id == updatedComment.ArticleId);
             await _unitOfWork.SaveAsync();
             return new DataResult<CommentDto>(ResultStatus.Success, Messages.Comment.Update(comment.CreatedByName), new CommentDto
             {
