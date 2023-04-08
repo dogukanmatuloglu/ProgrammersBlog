@@ -8,6 +8,7 @@ namespace ProgrammersBlog.Services.Utilities
 {
     public static class Messages
     {
+        // Messages.Category.NotFound()
         public static class Category
         {
             public static string NotFound(bool isPlural)
@@ -60,7 +61,31 @@ namespace ProgrammersBlog.Services.Utilities
                 return $"{articleTitle} başlıklı makale başarıyla veritabanından silinmiştir.";
             }
         }
+        public static class Comment
+        {
+            public static string NotFound(bool isPlural)
+            {
+                if (isPlural) return "Hiç bir yorum bulunamadı.";
+                return "Böyle bir yorum bulunamadı.";
+            }
 
+            public static string Add(string createdByName)
+            {
+                return $"Sayın {createdByName}, yorumunuz başarıyla eklenmiştir.";
+            }
 
+            public static string Update(string createdByName)
+            {
+                return $"{createdByName} tarafından eklenen yorum başarıyla güncellenmiştir.";
+            }
+            public static string Delete(string createdByName)
+            {
+                return $"{createdByName} tarafından eklenen yorum başarıyla silinmiştir.";
+            }
+            public static string HardDelete(string createdByName)
+            {
+                return $"{createdByName} tarafından eklenen yorum başarıyla veritabanından silinmiştir.";
+            }
+        }
     }
 }
