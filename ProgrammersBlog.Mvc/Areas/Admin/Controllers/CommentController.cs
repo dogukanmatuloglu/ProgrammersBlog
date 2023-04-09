@@ -63,6 +63,16 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             var commentResult = JsonSerializer.Serialize(result);
             return Json(commentResult);
         }
+        [HttpPost]
+        public async Task<IActionResult> Approve(int commentId)
+        {
+            var result = await _commentService.ApproveAsync(commentId, LoggedInUser.UserName);
+            var commentResult = JsonSerializer.Serialize(result,new JsonSerializerOptions
+            {
+                ReferenceHandler= ReferenceHandler.Preserve,
+            });
+            return Json(commentResult);
+        }
         [HttpGet]
         public async Task<IActionResult> Update(int commentId)
         {
