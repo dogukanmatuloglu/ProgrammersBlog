@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace ProgrammersBlog.Entities.Dtos
 {
-    internal class RoleAssignDto
+    public class RoleAssignDto
     {
+        public int RoleId  { get; set; }
+        public string RoleName { get; set; }
+        public bool HasRole { get; set; }
+
     }
 }
