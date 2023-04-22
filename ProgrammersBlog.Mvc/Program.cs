@@ -10,7 +10,11 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllersWithViews().AddJsonOptions(opt =>
+builder.Services.AddControllersWithViews(opt =>
+{
+    opt.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(value=>"Bu alan boþ geçilmemelidir");
+
+}).AddJsonOptions(opt =>
 {
     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
