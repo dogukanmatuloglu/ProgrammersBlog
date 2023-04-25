@@ -72,6 +72,10 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             var result = await UserManager.DeleteAsync(user);
             if (result.Succeeded)
             {
+                if (user.Picture!="userImages/defaultUser.png")
+                {
+                    ImageHelper.Delete(user.Picture)
+                }
                 var deletedUser = JsonSerializer.Serialize(new UserDto
                 {
                     User = user,
