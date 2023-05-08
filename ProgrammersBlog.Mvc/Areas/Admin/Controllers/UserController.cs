@@ -74,7 +74,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             {
                 if (user.Picture!="userImages/defaultUser.png")
                 {
-                    ImageHelper.Delete(user.Picture)
+                    ImageHelper.Delete(user.Picture);
                 }
                 var deletedUser = JsonSerializer.Serialize(new UserDto
                 {

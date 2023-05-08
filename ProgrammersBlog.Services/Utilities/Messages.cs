@@ -34,6 +34,10 @@ namespace ProgrammersBlog.Services.Utilities
             {
                 return $"{categoryName} adlı kategori başarıyla veritabanından silinmiştir.";
             }
+            public static string UndoDelete(string categoryName)
+            {
+                return $"{categoryName} adlı kategori başarıyla arşivden geri getirilmiştir.";
+            }
         }
 
         public static class Article
@@ -60,7 +64,12 @@ namespace ProgrammersBlog.Services.Utilities
             {
                 return $"{articleTitle} başlıklı makale başarıyla veritabanından silinmiştir.";
             }
+            public static string UndoDelete(string articleTitle)
+            {
+                return $"{articleTitle} başlıklı makale başarıyla arşivden geri getirilmiştir.";
+            }
         }
+
         public static class Comment
         {
             public static string NotFound(bool isPlural)
