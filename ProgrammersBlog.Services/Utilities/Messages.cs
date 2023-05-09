@@ -99,6 +99,10 @@ namespace ProgrammersBlog.Services.Utilities
             {
                 return $"{createdByName} tarafından eklenen yorum başarıyla veritabanından silinmiştir.";
             }
+            public static string UndoDelete(string createdByName)
+            {
+                return $"{createdByName} tarafından eklenen yorum başarıyla arşivden geri getirilmiştir.";
+            }
         }
     }
 }

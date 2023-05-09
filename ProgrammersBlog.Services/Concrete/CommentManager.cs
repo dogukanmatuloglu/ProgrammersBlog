@@ -237,7 +237,7 @@ namespace ProgrammersBlog.Services.Concrete
                 comment.ModifiedDate = DateTime.Now;
                 var deletedComment = await _unitOfWork.Comments.UpdateAsync(comment);
                 await _unitOfWork.SaveAsync();
-                return new DataResult<CommentDto>(ResultStatus.Success, Messages.Comment.Delete(deletedComment.CreatedByName), new CommentDto
+                return new DataResult<CommentDto>(ResultStatus.Success, Messages.Comment.UndoDelete(deletedComment.CreatedByName), new CommentDto
                 {
                     Comment = deletedComment,
                 });
