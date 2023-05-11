@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ProgrammersBlog.Data.Abstract;
 using ProgrammersBlog.Data.Concrete;
@@ -36,6 +37,10 @@ namespace ProgrammersBlog.Services.Extensions
 
 
             }).AddEntityFrameworkStores<ProgrammersBlogContext>();
+            serviceCollection.Configure<SecurityStampValidatorOptions>(opt =>
+            {
+                opt.ValidationInterval = TimeSpan.Zero;
+            });
             serviceCollection.AddScoped<ICategoryService, CategoryManager>();
             serviceCollection.AddScoped<IArticleService,ArticleManager>();
             serviceCollection.AddScoped<IUnitOfWork,UnitOfWork>();

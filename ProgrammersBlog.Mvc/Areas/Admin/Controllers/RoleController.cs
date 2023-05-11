@@ -83,6 +83,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                         await UserManager.RemoveFromRoleAsync(user, roleAssignDto.RoleName);
                     }
                 }
+                await UserManager.UpdateSecurityStampAsync(user);
                 var userRoleAssignAjaxViewModel = System.Text.Json.JsonSerializer.Serialize(new UserRoleAssignAjaxViewModel
                 {
                     UserDto = new UserDto
