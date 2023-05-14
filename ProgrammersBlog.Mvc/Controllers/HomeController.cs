@@ -12,10 +12,12 @@ namespace ProgrammersBlog.Mvc.Controllers
             _articleService = articleService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? categoryId)
         {
-            var articleListDto=await _articleService.GetAllByNonDeletedAndActiveAsync();
-            return View(articleListDto.Data);
+            var articlesResult =  categoryId == null ? await _articleService.GetAllByNonDeletedAndActiveAsync() : await _articleService.GetAllByCategoryAsync(categoryId.Value);
+            return View(articlesResult.Data);
+           
+
         }
     }
 }
