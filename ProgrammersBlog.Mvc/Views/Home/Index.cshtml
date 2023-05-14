@@ -22,7 +22,7 @@
                     @{
                         article.Content = regex.Replace(article.Content, "");
                     }
-                    @(article.Content.Length>150? article.Content.Substring(0,150):article.Content)
+                    @(article.Content.Length>250? article.Content.Substring(0,250):article.Content)
                 </p>
                 <a asp-action="Detail" asp-controller="Article" class="btn btn-primary">Daha Fazla Oku &rarr;</a>
             </div>
