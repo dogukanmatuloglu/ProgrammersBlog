@@ -12,5 +12,6 @@ namespace ProgrammersBlog.Entities.Dtos
     {
         public IList<Article> Articles { get; set; }
 
+        public int? CategoryId { get; set; }
     }
 }

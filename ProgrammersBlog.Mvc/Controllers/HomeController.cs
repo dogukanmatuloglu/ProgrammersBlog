@@ -12,9 +12,9 @@ namespace ProgrammersBlog.Mvc.Controllers
             _articleService = articleService;
         }
 
-        public async Task<IActionResult> Index(int? categoryId)
+        public async Task<IActionResult> Index(int? categoryId,int currentPage=1,int pageSize=5)
         {
-            var articlesResult =  categoryId == null ? await _articleService.GetAllByNonDeletedAndActiveAsync() : await _articleService.GetAllByCategoryAsync(categoryId.Value);
+            var articlesResult = categoryId == null ? await _articleService.GetAllByPagingAsync(null, currentPage, pageSize) : await _articleService.GetAllByPagingAsync(categoryId.Value, currentPage, pageSize);
             return View(articlesResult.Data);
            
 
