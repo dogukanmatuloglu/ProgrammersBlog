@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProgrammersBlog.Mvc.Models;
 using ProgrammersBlog.Services.Abstract;
 
 namespace ProgrammersBlog.Mvc.Controllers
@@ -12,9 +13,17 @@ namespace ProgrammersBlog.Mvc.Controllers
             _articleService = articleService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Search(string keyword,int currentPage=1,int pageSize=5,bool IsAscending=false)
         {
-            return View();
+            var searchResult=await _articleService.SearchAsync(keyword, currentPage, pageSize, IsAscending);
+            if (searchResult.ResultStatus==Shared.Utilities.Results.ComplexTypes.ResultStatus.Success) {
+                return View(new ArticleSearchViewModel
+                {
+                    ArticleListDto = searchResult.Data,
+                    Keyword = keyword,
+                });
+            }
+            return NotFound();
         }
 
         public async Task<IActionResult> Detail(int articleId)

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LinqKit;
+using Microsoft.EntityFrameworkCore;
 using ProgrammersBlog.Shared.Data.Abstract;
 using ProgrammersBlog.Shared.Entities.Abstract;
 using System;
@@ -81,10 +82,12 @@ namespace ProgrammersBlog.Shared.Data.Concrete.EntityFramework
             IQueryable<TEntity> query = _context.Set<TEntity>();
             if (predicates.Any())
             {
+                var predicateChain=PredicateBuilder.New<TEntity>();
                 foreach (var predicate in predicates)
                 {
-                    query = query.Where(predicate);
+                    predicateChain.Or(predicate);
                 }
+                query = query.Where(predicateChain);
             }
             if (includeProperties.Any())
             {
