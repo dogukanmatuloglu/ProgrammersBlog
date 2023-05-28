@@ -124,8 +124,15 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<CommentDto>> AddAsync(CommentAddDto commentAddDto)
         {
+            var article = await _unitOfWork.Articles.GetAsync(a => a.Id == commentAddDto.ArticleId);
+            if (article == null)
+            {
+                return new DataResult<CommentDto>(ResultStatus.Error,Messages.Article.NotFound(isPlural: false),null);
+            }
             var comment = _mapper.Map<Comment>(commentAddDto);
             var addedComment = await _unitOfWork.Comments.AddAsync(comment);
+            article.CommentCount=await _unitOfWork.Comments.CountAsync(c=>c.ArticleId==article.Id&&!c.IsDeleted);
+            await _unitOfWork.Articles.UpdateAsync(article);
             await _unitOfWork.SaveAsync();
             return new DataResult<CommentDto>(ResultStatus.Success, Messages.Comment.Add(commentAddDto.CreatedByName), new CommentDto
             {
@@ -149,14 +156,17 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<CommentDto>> DeleteAsync(int commentId, string modifiedByName)
         {
-            var comment = await _unitOfWork.Comments.GetAsync(c => c.Id == commentId);
+            var comment = await _unitOfWork.Comments.GetAsync(c => c.Id == commentId,c=>c.Article);
             if (comment != null)
             {
+                var article=comment.Article;
                 comment.IsDeleted = true;
                 comment.IsActive = false;
                 comment.ModifiedByName = modifiedByName;
                 comment.ModifiedDate = DateTime.Now;
                 var deletedComment = await _unitOfWork.Comments.UpdateAsync(comment);
+                article.CommentCount=await _unitOfWork.Comments.CountAsync(c=>c.ArticleId==article.Id&&!c.IsDeleted);
+                await _unitOfWork.Articles.UpdateAsync(article);
                 await _unitOfWork.SaveAsync();
                 return new DataResult<CommentDto>(ResultStatus.Success, Messages.Comment.Delete(deletedComment.CreatedByName), new CommentDto
                 {
@@ -171,10 +181,13 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IResult> HardDeleteAsync(int commentId)
         {
-            var comment = await _unitOfWork.Comments.GetAsync(c => c.Id == commentId);
+            var comment = await _unitOfWork.Comments.GetAsync(c => c.Id == commentId,c=>c.Article);
             if (comment != null)
             {
+                var article=comment.Article;
                 await _unitOfWork.Comments.DeleteAsync(comment);
+                article.CommentCount = await _unitOfWork.Comments.CountAsync(c => c.ArticleId == article.Id && !c.IsDeleted);
+                await _unitOfWork.Articles.UpdateAsync(article);
                 await _unitOfWork.SaveAsync();
                 return new Result(ResultStatus.Success, Messages.Comment.HardDelete(comment.CreatedByName));
             }
@@ -228,14 +241,17 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<CommentDto>> UndoDeleteAsync(int commentId, string modifiedByName)
         {
-            var comment = await _unitOfWork.Comments.GetAsync(c => c.Id == commentId);
+            var comment = await _unitOfWork.Comments.GetAsync(c => c.Id == commentId, c => c.Article);
             if (comment != null)
             {
+                var article = comment.Article;
                 comment.IsDeleted = false;
                 comment.IsActive= true;
                 comment.ModifiedByName = modifiedByName;
                 comment.ModifiedDate = DateTime.Now;
                 var deletedComment = await _unitOfWork.Comments.UpdateAsync(comment);
+                article.CommentCount = await _unitOfWork.Comments.CountAsync(c => c.ArticleId == article.Id && !c.IsDeleted);
+                await _unitOfWork.Articles.UpdateAsync(article);
                 await _unitOfWork.SaveAsync();
                 return new DataResult<CommentDto>(ResultStatus.Success, Messages.Comment.UndoDelete(deletedComment.CreatedByName), new CommentDto
                 {
