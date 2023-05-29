@@ -225,11 +225,14 @@ namespace ProgrammersBlog.Services.Concrete
             var comment = await _unitOfWork.Comments.GetAsync(c=>c.Id==commentId,c=>c.Article);
             if (comment != null)
             {
+                var article=comment.Article;
                 comment.IsActive = true;
                 comment.ModifiedByName = modifiedByName;
                 comment.ModifiedDate = DateTime.Now;
 
                 var updatedComment = await _unitOfWork.Comments.UpdateAsync(comment);
+                article.CommentCount=await _unitOfWork.Comments.CountAsync(c=>c.ArticleId==article.Id&&!c.IsDeleted);
+                await _unitOfWork.Articles.UpdateAsync(article);
                 await _unitOfWork.SaveAsync();
                 return new DataResult<CommentDto>(ResultStatus.Success, Messages.Comment.Approve(commentId), new CommentDto
                 {
