@@ -31,6 +31,7 @@ namespace ProgrammersBlog.Mvc.Controllers
             var articleResult=await _articleService.GetAsync(articleId);
             if (articleResult.ResultStatus==Shared.Utilities.Results.ComplexTypes.ResultStatus.Success)
             {
+                await _articleService.IncreaseViewCountAsync(articleId);
                 return View(articleResult.Data);
             }
             return NotFound();
