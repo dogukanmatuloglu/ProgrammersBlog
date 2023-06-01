@@ -1,3 +1,4 @@
+using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Mvc.AutoMapper.Profiles;
 using ProgrammersBlog.Mvc.Helpers;
 using ProgrammersBlog.Mvc.Helpers.Abstract;
@@ -22,7 +23,7 @@ builder.Services.AddControllersWithViews(opt =>
 builder.Services.AddSession();
 builder.Services.LoadMyServices(connectionString:builder.Configuration.GetValue<string>("ConnectionStrings:LocalDB"));
 builder.Services.AddScoped<IImageHelper, ImageHelper>();
-
+builder.Services.Configure<AboutUsPageInfo>(builder.Configuration.GetSection("AboutUsPageInfo"));
 builder.Services.ConfigureApplicationCookie(opt =>
 {
     opt.LoginPath = new PathString("/Admin/Auth/Login");
