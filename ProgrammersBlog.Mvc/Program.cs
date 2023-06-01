@@ -24,6 +24,7 @@ builder.Services.AddSession();
 builder.Services.LoadMyServices(connectionString:builder.Configuration.GetValue<string>("ConnectionStrings:LocalDB"));
 builder.Services.AddScoped<IImageHelper, ImageHelper>();
 builder.Services.Configure<AboutUsPageInfo>(builder.Configuration.GetSection("AboutUsPageInfo"));
+builder.Services.Configure<WebSiteInfo>(builder.Configuration.GetSection("WebSiteInfo"));
 builder.Services.ConfigureApplicationCookie(opt =>
 {
     opt.LoginPath = new PathString("/Admin/Auth/Login");

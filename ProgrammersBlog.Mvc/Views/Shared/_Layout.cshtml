@@ -1,14 +1,21 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Options
+@using ProgrammersBlog.Entities.Concrete;
+@inject IOptions<WebSiteInfo> WebSiteInfo
+@{
+    var webSiteInfo = WebSiteInfo.Value;
+}
+<!DOCTYPE html>
 <html lang="tr">
 
 <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Programcılar ve Yazılımcılar için Türkçe Kaynak, Rehber ve İçerikler">
-    <meta name="author" content="ProgrammersBlog">
+    <meta name="description" content="@webSiteInfo.SeoDescription">
+    <meta name="author" content="@webSiteInfo.SeoAuthor">
+    <meta name="keywords" content="@webSiteInfo.SeoTags">
 
-    <title>@ViewBag.Title | ProgrammersBlog</title>
+    <title>@ViewBag.Title | @webSiteInfo.Title</title>
 
     <!-- Bootstrap core CSS -->
     <link href="~/BlogHome/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -25,7 +32,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">ProgrammersBlog</a>
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">@webSiteInfo.MenuTitle</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
