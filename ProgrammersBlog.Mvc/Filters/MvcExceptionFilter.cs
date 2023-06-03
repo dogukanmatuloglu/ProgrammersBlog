@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 using ProgrammersBlog.Shared.Entities.Concrete;
+using System.Data.SqlTypes;
 
 namespace ProgrammersBlog.Mvc.Filters
 {
@@ -20,11 +21,23 @@ namespace ProgrammersBlog.Mvc.Filters
         public void OnException(ExceptionContext context)
         {
             if (_environment.IsDevelopment()) {
-            context.ExceptionHandled = true;
-                var mvcErrorModel = new MvcErrorModel()
+                context.ExceptionHandled = true;
+                var mvcErrorModel = new MvcErrorModel();
+                switch (context.Exception)
                 {
-                    Message = $"Üzgünüz, işleminiz sırasında beklenmedik bir hata oluştu. Sorunu en kısa sürede çözeceğiz."
-                };
+                    case SqlNullValueException:
+                        mvcErrorModel.Message = "Üzgünüz, işleminiz sırasında beklenmedik bir veritabanı hatası oluştu. Sorunu en kısa sürede çözeceğiz.";
+                        mvcErrorModel.Detail=context.Exception.Message;
+                            break;
+                    case NullReferenceException:
+                        mvcErrorModel.Message = "Üzgünüz, işleminiz sırasında beklenmedik bir null veri hatası oluştu. Sorunu en kısa sürede çözeceğiz.";
+                        mvcErrorModel.Detail = context.Exception.Message;
+                        break;
+                    default:
+                        mvcErrorModel.Message = $"Üzgünüz, işleminiz sırasında beklenmedik bir hata oluştu. Sorunu en kısa sürede çözeceğiz.";
+                        break;
+                }
+               
                 var result = new ViewResult() { ViewName = "Error" };
                 result.StatusCode = 500;
                 result.ViewData = new Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary(_modelMetadataProvider, context.ModelState);
