@@ -1,3 +1,4 @@
+using NLog.Web;
 using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Mvc.AutoMapper.Profiles;
 using ProgrammersBlog.Mvc.Filters;
@@ -46,7 +47,8 @@ builder.Services.ConfigureApplicationCookie(opt =>
 });
 
 builder.Services.AddAutoMapper(typeof(CategoryProfile),typeof(ArticleProfile),typeof(UserProfile),typeof(ViewModelProfiles),typeof(CommentProfile));
-
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
 
 var app = builder.Build();
 
@@ -70,5 +72,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseNToastNotify();
 app.UseEndpoints(endpoints => { endpoints.MapAreaControllerRoute(name: "Admin", areaName: "Admin", pattern: "Admin/{controller=Home}/{action=Index}/{id?}"); endpoints.MapDefaultControllerRoute(); } );
-
 app.Run();

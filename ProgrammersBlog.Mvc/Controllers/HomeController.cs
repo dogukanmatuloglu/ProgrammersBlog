@@ -27,6 +27,7 @@ namespace ProgrammersBlog.Mvc.Controllers
 
         public IActionResult About()
         {
+            throw new NotImplementedException();
             return View(_aboutUsPageInfo);
         }
 
