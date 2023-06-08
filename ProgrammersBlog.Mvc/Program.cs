@@ -50,7 +50,14 @@ builder.Services.ConfigureApplicationCookie(opt =>
 builder.Services.AddAutoMapper(typeof(CategoryProfile),typeof(ArticleProfile),typeof(UserProfile),typeof(ViewModelProfiles),typeof(CommentProfile));
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
-
+builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
+{
+    //config.Sources.Clear();
+    var env = hostingContext.HostingEnvironment;
+    config.AddJsonFile("appsettings.json", true, true);
+    config.AddEnvironmentVariables();
+   
+});
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
