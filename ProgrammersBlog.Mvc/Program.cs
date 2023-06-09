@@ -6,6 +6,7 @@ using ProgrammersBlog.Mvc.Helpers;
 using ProgrammersBlog.Mvc.Helpers.Abstract;
 using ProgrammersBlog.Services.AutoMapper.Profiles;
 using ProgrammersBlog.Services.Extensions;
+using ProgrammersBlog.Shared.Utilities.Extensions;
 using System.Text.Json.Serialization;
 
 
@@ -29,6 +30,7 @@ builder.Services.AddScoped<IImageHelper, ImageHelper>();
 builder.Services.Configure<AboutUsPageInfo>(builder.Configuration.GetSection("AboutUsPageInfo"));
 builder.Services.Configure<WebSiteInfo>(builder.Configuration.GetSection("WebSiteInfo"));
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+builder.Services.ConfigureWritable<AboutUsPageInfo>(builder.Configuration.GetSection("AboutUsPageInfo"));
 builder.Services.ConfigureApplicationCookie(opt =>
 {
     opt.LoginPath = new PathString("/Admin/Auth/Login");

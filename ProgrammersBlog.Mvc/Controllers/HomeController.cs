@@ -4,6 +4,8 @@ using NToastNotify;
 using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Entities.Dtos;
 using ProgrammersBlog.Services.Abstract;
+using ProgrammersBlog.Shared.Utilities.Helpers.Abstract;
+using System.Buffers;
 
 namespace ProgrammersBlog.Mvc.Controllers
 {
@@ -13,12 +15,14 @@ namespace ProgrammersBlog.Mvc.Controllers
         private readonly AboutUsPageInfo _aboutUsPageInfo;
         private readonly IMailService _mailService;
         private readonly IToastNotification _toastNotification;
-        public HomeController(IArticleService articleService, IOptionsSnapshot<AboutUsPageInfo> aboutUsPageInfo, IMailService mailService, IToastNotification toastNotification)
+        private readonly IWritableOptions<AboutUsPageInfo> _aboutUsPageInfoWriter;
+        public HomeController(IArticleService articleService, IOptionsSnapshot<AboutUsPageInfo> aboutUsPageInfo, IMailService mailService, IToastNotification toastNotification, IWritableOptions<AboutUsPageInfo> aboutUsPageInfoWriter)
         {
             _articleService = articleService;
             _aboutUsPageInfo = aboutUsPageInfo.Value;
             _mailService = mailService;
             _toastNotification = toastNotification;
+            _aboutUsPageInfoWriter = aboutUsPageInfoWriter;
         }
 
 
@@ -31,6 +35,12 @@ namespace ProgrammersBlog.Mvc.Controllers
 
         public IActionResult About()
         {
+            _aboutUsPageInfoWriter.Update(x =>
+            {
+                x.Header = "Yeni Başlık";
+                x.Content = "Yeni İçerik";
+
+            });
             return View(_aboutUsPageInfo);
         }
 
