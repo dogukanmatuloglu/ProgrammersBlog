@@ -35,12 +35,7 @@ namespace ProgrammersBlog.Mvc.Controllers
 
         public IActionResult About()
         {
-            _aboutUsPageInfoWriter.Update(x =>
-            {
-                x.Header = "Yeni Başlık";
-                x.Content = "Yeni İçerik";
-
-            });
+          
             return View(_aboutUsPageInfo);
         }
 
