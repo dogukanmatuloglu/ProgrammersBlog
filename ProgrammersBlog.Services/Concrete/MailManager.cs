@@ -39,7 +39,7 @@ namespace ProgrammersBlog.Services.Concrete
                 Port = _settings.Port,
                 EnableSsl = true,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(_settings.UserName, _settings.Password),
+                Credentials = new NetworkCredential(_settings.Username, _settings.Password),
                 DeliveryMethod = SmtpDeliveryMethod.Network
             };
             smtpClient.Send(message);
@@ -62,7 +62,7 @@ namespace ProgrammersBlog.Services.Concrete
                 Port = _settings.Port,
                 EnableSsl=true,
                 UseDefaultCredentials=false,
-                Credentials=new NetworkCredential(_settings.UserName, _settings.Password),
+                Credentials=new NetworkCredential(_settings.Username, _settings.Password),
                 DeliveryMethod=SmtpDeliveryMethod.Network
             };
             smtpClient.Send(message);   
