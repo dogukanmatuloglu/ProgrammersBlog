@@ -23,6 +23,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         private readonly IArticleService _articleService;
         private readonly ICategoryService _categoryService;
         private readonly IToastNotification _toastNotification;
+     
         public ArticleController(IArticleService articleService, ICategoryService categoryService, UserManager<User> userManager, IMapper mapper, IImageHelper imageHelper, IToastNotification toastNotification = null) : base(userManager, mapper, imageHelper)
         {
             _articleService = articleService;

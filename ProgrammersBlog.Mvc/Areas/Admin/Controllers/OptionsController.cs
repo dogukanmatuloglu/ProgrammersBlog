@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NToastNotify;
 using ProgrammersBlog.Entities.Concrete;
+using ProgrammersBlog.Mvc.Areas.Admin.Models;
+using ProgrammersBlog.Mvc.Models;
+using ProgrammersBlog.Services.Abstract;
 using ProgrammersBlog.Shared.Utilities.Helpers.Abstract;
 
 namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
@@ -14,11 +18,15 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         private readonly AboutUsPageInfo _aboutPageInfo;
         private readonly WebSiteInfo _webSiteInfo;
         private readonly SmtpSettings _smtpSettings;
+        private readonly ArticleRightSideBarWidgetOptions _articleRightSideBarWidgetOptions;
         private readonly IWritableOptions<SmtpSettings> _smtSettingsWriter;
         private readonly IWritableOptions<WebSiteInfo> _webSiteInfoWriter;
         private readonly IWritableOptions<AboutUsPageInfo> _aboutUsPageInfoWriter;
+        private readonly IWritableOptions<ArticleRightSideBarWidgetOptions> _articleRightSideBarWidgetOptionsWriter;
         private readonly IToastNotification _toastNotification;
-        public OptionsController(IOptionsSnapshot<AboutUsPageInfo> aboutPageInfo, IWritableOptions<AboutUsPageInfo> aboutUsPageInfoWriter, IToastNotification toastNotification, IOptionsSnapshot<WebSiteInfo> webSiteInfo, IWritableOptions<WebSiteInfo> webSiteInfoWriter, IOptionsSnapshot<SmtpSettings> smtpSettings, IWritableOptions<SmtpSettings> smtSettingsWriter)
+        private readonly ICategoryService _categoryService;
+        private readonly IMapper _mapper;
+        public OptionsController(IOptionsSnapshot<AboutUsPageInfo> aboutPageInfo, IWritableOptions<AboutUsPageInfo> aboutUsPageInfoWriter, IToastNotification toastNotification, IOptionsSnapshot<WebSiteInfo> webSiteInfo, IWritableOptions<WebSiteInfo> webSiteInfoWriter, IOptionsSnapshot<SmtpSettings> smtpSettings, IWritableOptions<SmtpSettings> smtSettingsWriter, IOptionsSnapshot<ArticleRightSideBarWidgetOptions> articleRightSideBarWidgetOptions, IWritableOptions<ArticleRightSideBarWidgetOptions> articleRightSideBarWidgetOptionsWriter, ICategoryService categoryService, IMapper mapper)
         {
             _aboutPageInfo = aboutPageInfo.Value;
             _aboutUsPageInfoWriter = aboutUsPageInfoWriter;
@@ -27,6 +35,10 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             _webSiteInfoWriter = webSiteInfoWriter;
             _smtpSettings = smtpSettings.Value;
             _smtSettingsWriter = smtSettingsWriter;
+            _articleRightSideBarWidgetOptions = articleRightSideBarWidgetOptions.Value;
+            _articleRightSideBarWidgetOptionsWriter = articleRightSideBarWidgetOptionsWriter;
+            _categoryService = categoryService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -113,6 +125,47 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                 });
             }
             return View(smtpSettings);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ArticleRightSideBarWidgetSettings()
+        {
+            var categoriesResult=await _categoryService.GetAllByNonDeletedAndActiveAsync();
+            var articleRightSideBarWidgetOptionsViewModel = _mapper.Map<ArticleRightSideBarWidgetOptionsViewModel>(_articleRightSideBarWidgetOptions);
+            articleRightSideBarWidgetOptionsViewModel.Categories = categoriesResult.Data.Categories;
+
+            return View(articleRightSideBarWidgetOptionsViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ArticleRightSideBarWidgetSettings(ArticleRightSideBarWidgetOptionsViewModel articleDetailRightSideBarWidgetOptionsViewModel)
+        {
+            var categoriesResult = await _categoryService.GetAllByNonDeletedAndActiveAsync();
+            articleDetailRightSideBarWidgetOptionsViewModel.Categories=categoriesResult.Data.Categories;
+            if (ModelState.IsValid)
+            {
+                _articleRightSideBarWidgetOptionsWriter.Update(x =>
+                {
+                    x.Header=articleDetailRightSideBarWidgetOptionsViewModel.Header;
+                    x.OrderBy = articleDetailRightSideBarWidgetOptionsViewModel.OrderBy;
+                    x.FilterBy = articleDetailRightSideBarWidgetOptionsViewModel.FilterBy;
+                    x.CategoryId = articleDetailRightSideBarWidgetOptionsViewModel.CategoryId;
+                    x.EndAt = articleDetailRightSideBarWidgetOptionsViewModel.EndAt;
+                    x.StartAt = articleDetailRightSideBarWidgetOptionsViewModel.StartAt;
+                    x.MaxCommentCount = articleDetailRightSideBarWidgetOptionsViewModel.MaxCommentCount;
+                    x.MinCommentCount = articleDetailRightSideBarWidgetOptionsViewModel.MinCommentCount;
+                    x.MaxViewCount = articleDetailRightSideBarWidgetOptionsViewModel.MaxViewCount;
+                    x.MinViewCount = articleDetailRightSideBarWidgetOptionsViewModel.MinViewCount;
+
+                });
+                _toastNotification.AddSuccessToastMessage("Sitenizin E-Posta Ayarları Başarıyla Güncellenmiştir.", new ToastrOptions
+                {
+                    Title = "Başarılı İşlem"
+                });
+
+                return View(articleDetailRightSideBarWidgetOptionsViewModel);
+            }
+            return View(articleDetailRightSideBarWidgetOptionsViewModel);
         }
 
 

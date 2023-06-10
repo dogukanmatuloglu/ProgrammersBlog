@@ -30,9 +30,11 @@ builder.Services.AddScoped<IImageHelper, ImageHelper>();
 builder.Services.Configure<AboutUsPageInfo>(builder.Configuration.GetSection("AboutUsPageInfo"));
 builder.Services.Configure<WebSiteInfo>(builder.Configuration.GetSection("WebSiteInfo"));
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+builder.Services.Configure<ArticleRightSideBarWidgetOptions>(builder.Configuration.GetSection("ArticleRightSideBarWidgetOptions"));
 builder.Services.ConfigureWritable<AboutUsPageInfo>(builder.Configuration.GetSection("AboutUsPageInfo"));
 builder.Services.ConfigureWritable<WebSiteInfo>(builder.Configuration.GetSection("WebSiteInfo"));
 builder.Services.ConfigureWritable<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+builder.Services.ConfigureWritable<ArticleRightSideBarWidgetOptions>(builder.Configuration.GetSection("ArticleRightSideBarWidgetOptions"));
 builder.Services.ConfigureApplicationCookie(opt =>
 {
     opt.LoginPath = new PathString("/Admin/Auth/Login");
