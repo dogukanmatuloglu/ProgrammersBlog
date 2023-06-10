@@ -35,7 +35,7 @@ namespace ProgrammersBlog.Mvc.Controllers
             var articleResult=await _articleService.GetAsync(articleId);
             if (articleResult.ResultStatus==Shared.Utilities.Results.ComplexTypes.ResultStatus.Success)
             {
-                var userArticles = await _articleService.GetAllByUserIdOnFiler(articleResult.Data.Article.UserId, _articleRightSideBarWidgetOptions.FilterBy, 
+                var userArticles = await _articleService.GetAllByUserIdOnFilter(articleResult.Data.Article.UserId, _articleRightSideBarWidgetOptions.FilterBy, 
                     _articleRightSideBarWidgetOptions.OrderBy, _articleRightSideBarWidgetOptions.IsAscending, _articleRightSideBarWidgetOptions.TakeSize,
                     _articleRightSideBarWidgetOptions.CategoryId, _articleRightSideBarWidgetOptions.StartAt, _articleRightSideBarWidgetOptions.EndAt, 
                     _articleRightSideBarWidgetOptions.MinViewCount, _articleRightSideBarWidgetOptions.MaxViewCount, _articleRightSideBarWidgetOptions.MinCommentCount,

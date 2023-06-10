@@ -156,6 +156,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                     x.MinCommentCount = articleDetailRightSideBarWidgetOptionsViewModel.MinCommentCount;
                     x.MaxViewCount = articleDetailRightSideBarWidgetOptionsViewModel.MaxViewCount;
                     x.MinViewCount = articleDetailRightSideBarWidgetOptionsViewModel.MinViewCount;
+                    x.TakeSize = articleDetailRightSideBarWidgetOptionsViewModel.TakeSize;
 
                 });
                 _toastNotification.AddSuccessToastMessage("Sitenizin E-Posta Ayarları Başarıyla Güncellenmiştir.", new ToastrOptions
