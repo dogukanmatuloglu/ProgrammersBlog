@@ -5,6 +5,6 @@ namespace ProgrammersBlog.Mvc.Models
     public class ArticleDetailViewModel
     {
         public ArticleDto ArticleDto { get; set; }
-        public ArticleDetailRightSideBarWidgetOptionsViewModel ArticleDetailRightSideBarViewModel { get; set; }
+        public ArticleDetailRightSideBarViewModel ArticleDetailRightSideBarViewModel { get; set; }
     }
 }

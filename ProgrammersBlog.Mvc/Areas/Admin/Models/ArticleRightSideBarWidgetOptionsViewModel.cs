@@ -52,6 +52,6 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Models
         [DisplayName("Minimum Yorum Sayısı")]
         [Required(ErrorMessage = "{0} alanı zorunludur.")]
         public int MinCommentCount { get; set; }
-        public IList<Category> Categories { get; set; }
+        public IList<Category>? Categories { get; set; }
     }
 }
