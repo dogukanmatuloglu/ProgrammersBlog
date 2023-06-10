@@ -21,7 +21,7 @@ namespace ProgrammersBlog.Services.Extensions
         {
             serviceCollection.AddDbContext<ProgrammersBlogContext>(opt =>
             {
-                opt.UseSqlServer(connectionString);
+                opt.UseSqlServer(connectionString).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
             serviceCollection.AddIdentity<User, Role>(opt =>
             {

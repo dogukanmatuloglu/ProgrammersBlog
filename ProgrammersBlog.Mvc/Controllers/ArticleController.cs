@@ -19,6 +19,7 @@ namespace ProgrammersBlog.Mvc.Controllers
 
         public async Task<IActionResult> Search(string keyword,int currentPage=1,int pageSize=5,bool IsAscending=false)
         {
+            
             var searchResult=await _articleService.SearchAsync(keyword, currentPage, pageSize, IsAscending);
             if (searchResult.ResultStatus==Shared.Utilities.Results.ComplexTypes.ResultStatus.Success) {
                 return View(new ArticleSearchViewModel
