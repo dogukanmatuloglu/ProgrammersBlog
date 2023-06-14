@@ -14,6 +14,7 @@ namespace ProgrammersBlog.Services.Abstract
     {
 
         Task<IDataResult<ArticleDto>> GetAsync(int id);
+        Task<IDataResult<ArticleDto>> GetByIdAsync(int id,bool includeCategory,bool includeComments,bool includeUsers);
         Task<IDataResult<ArticleUpdateDto>> GetArticleUpdateDtoAsync(int articleId);
         Task<IDataResult<ArticleListDto>> GetAllAsync();
         Task<IDataResult<ArticleListDto>> GetAllByNonDeletedAsync();
