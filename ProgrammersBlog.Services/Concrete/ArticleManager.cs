@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static ProgrammersBlog.Services.Utilities.Messages;
 using Article = ProgrammersBlog.Entities.Concrete.Article;
+using User = ProgrammersBlog.Entities.Concrete.User;
 
 namespace ProgrammersBlog.Services.Concrete
 {
@@ -477,6 +478,68 @@ namespace ProgrammersBlog.Services.Concrete
             return new DataResult<ArticleDto>(ResultStatus.Success,new ArticleDto
             {
                 Article=article,
+            });
+        }
+
+        public async Task<IDataResult<ArticleListDto>> GetAllAsyncV2(int? categoryId, int? userId, bool? isActive, bool? isDeleted, int currentPage, int pageSize, OrderByGeneral orderByGeneral, bool isAscending, bool includeCategory, bool includeComments, bool includeUsers)
+        {
+            List<Expression<Func<Article, bool>>> predicates = new List<Expression<Func<Article, bool>>>();
+            List<Expression<Func<Article, object>>> includes = new List<Expression<Func<Article, object>>>();
+
+            if (categoryId.HasValue)
+            {
+                if (!await UnitOfWork.Categories.AnyAsync(x=>x.Id==categoryId.Value))
+                {
+                    return new DataResult<ArticleListDto>(ResultStatus.Warning, Messages.General.ValidationError(), null, new List<ValidationError> { new ValidationError() { PropertyName = "categoryId", Message = Messages.Category.NotFoundById(categoryId.Value) } });
+                }
+                predicates.Add(a=>a.CategoryId==categoryId.Value);
+            }
+
+            if (userId.HasValue)
+            {
+                if (!await  _userManager.Users.AnyAsync(u=>u.Id==userId.Value))
+                { 
+                    return new DataResult<ArticleListDto>(ResultStatus.Warning, Messages.General.ValidationError(), null, new List<ValidationError> { new ValidationError() { PropertyName = "userId", Message = Messages.User.NotFoundById(userId.Value) } });
+                }
+                predicates.Add(a => a.UserId == userId.Value);
+            }
+
+
+            if (isActive.HasValue) predicates.Add(a => a.IsActive == isActive.Value);
+            if (isDeleted.HasValue) predicates.Add(a => a.IsDeleted == isDeleted.Value);
+            
+            if (includeCategory) includes.Add(a => a.Category);
+            if (includeComments) includes.Add(a => a.Comments);
+            if (includeUsers) includes.Add(a => a.User);
+
+            var articles = await UnitOfWork.Articles.GetAllAsyncV2(predicates, includes);
+            IOrderedEnumerable<Article> sortedArticles;
+            switch (orderByGeneral)
+            {
+                case OrderByGeneral.Id:
+                    sortedArticles= isAscending ? articles.OrderBy(a => a.Id) :articles.OrderByDescending(a => a.Id);
+
+                    break;
+                case OrderByGeneral.Az:
+
+                    sortedArticles = isAscending ? articles.OrderBy(a => a.Title) : articles.OrderByDescending(a => a.Title);
+                    break;               
+                   
+                default:
+                    sortedArticles = isAscending ? articles.OrderBy(a => a.CreatedDate) : articles.OrderByDescending(a => a.CreatedDate);
+                    break;
+            }
+
+            return new DataResult<ArticleListDto>(ResultStatus.Success, new ArticleListDto
+            {
+                Articles = sortedArticles.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList(),
+                CategoryId = categoryId.HasValue? categoryId.Value:null,
+                CurrentPage = currentPage,
+                PageSize = pageSize,
+                IsAscending = isAscending,
+                TotalCount=articles.Count,
+                ResultStatus = ResultStatus.Success
+
             });
         }
     }

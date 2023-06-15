@@ -16,6 +16,7 @@ namespace ProgrammersBlog.Services.Abstract
         Task<IDataResult<ArticleDto>> GetAsync(int id);
         Task<IDataResult<ArticleDto>> GetByIdAsync(int id,bool includeCategory,bool includeComments,bool includeUsers);
         Task<IDataResult<ArticleUpdateDto>> GetArticleUpdateDtoAsync(int articleId);
+        Task<IDataResult<ArticleListDto>> GetAllAsyncV2(int? categoryId,int? userId,bool? isActive,bool? isDeleted,int currentPage,int pageSize, OrderByGeneral orderByGeneral,bool isAscending, bool includeCategory, bool includeComments, bool includeUsers);
         Task<IDataResult<ArticleListDto>> GetAllAsync();
         Task<IDataResult<ArticleListDto>> GetAllByNonDeletedAsync();
         Task<IDataResult<ArticleListDto>> GetAllByNonDeletedAndActiveAsync();
