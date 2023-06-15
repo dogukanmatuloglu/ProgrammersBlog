@@ -30,7 +30,7 @@
     <!-- Post Content -->
             @Html.Raw(Model.ArticleDto.Article.Content)
     <hr />
-    <p class="text-center">Okunma Sayısı: <span class="badge badge-info">@Model.ArticleDto..Article.ViewCount</span> Yorum Sayısı: <span class="badge badge-warning">@Model.ArticleDto.Article.CommentCount</span></p>
+    <p class="text-center">Okunma Sayısı: <span class="badge badge-info">@Model.ArticleDto.Article.ViewCount</span> Yorum Sayısı: <span class="badge badge-warning">@Model.ArticleDto.Article.CommentCount</span></p>
     <!-- Comments Form -->
     <partial name="~/Views/Comment/_CommentAddPartial.cshtml" model="new CommentAddDto{ ArticleId=Model.ArticleDto.Article.Id}">
 

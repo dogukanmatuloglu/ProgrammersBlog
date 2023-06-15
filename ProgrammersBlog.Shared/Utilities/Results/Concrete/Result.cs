@@ -37,7 +37,7 @@ namespace ProgrammersBlog.Shared.Utilities.Results.Concrete
             Message = message;
             Exception = exception;
         }
-        public Result(ResultStatus resultStatus, string message, Exception exception,, IEnumerable<ValidationError> validationErrors)
+        public Result(ResultStatus resultStatus, string message, Exception exception, IEnumerable<ValidationError> validationErrors)
         {
             ResultStatus = resultStatus;
             Message = message;

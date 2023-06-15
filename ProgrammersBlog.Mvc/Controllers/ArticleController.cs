@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using ProgrammersBlog.Entities.Complex_Types;
 using ProgrammersBlog.Entities.Concrete;
+using ProgrammersBlog.Mvc.Attributes;
 using ProgrammersBlog.Mvc.Models;
 using ProgrammersBlog.Services.Abstract;
 
@@ -30,7 +31,7 @@ namespace ProgrammersBlog.Mvc.Controllers
             }
             return NotFound();
         }
-
+        [ViewCountFilter]
         public async Task<IActionResult> Detail(int articleId)
         {
             var articleResult=await _articleService.GetAsync(articleId);
@@ -42,7 +43,7 @@ namespace ProgrammersBlog.Mvc.Controllers
                     _articleRightSideBarWidgetOptions.MinViewCount, _articleRightSideBarWidgetOptions.MaxViewCount, _articleRightSideBarWidgetOptions.MinCommentCount,
                     _articleRightSideBarWidgetOptions.MaxCommentCount);
 
-                await _articleService.IncreaseViewCountAsync(articleId);
+                //await _articleService.IncreaseViewCountAsync(articleId);
 
                 return View(new ArticleDetailViewModel
                 {
