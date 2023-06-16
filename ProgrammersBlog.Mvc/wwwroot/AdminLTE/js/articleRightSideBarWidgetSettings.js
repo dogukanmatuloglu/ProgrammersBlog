@@ -55,7 +55,10 @@
             showAnim: "drop",
             showOptions:{direction:"down"},
             
-            maxDate:0
+            maxDate: 0,
+            onSelect: function (selectedDate) {
+                $("#endAtDatePicker").datepicker('option', 'mindate', selectedDate || getTodaysDate());
+            }
         });
 
         $("#endAtDatePicker").datepicker({
