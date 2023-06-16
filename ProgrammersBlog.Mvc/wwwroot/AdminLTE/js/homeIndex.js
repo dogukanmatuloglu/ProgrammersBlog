@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    //DateTable
     $('#articlesTable').DataTable({
         language: {
             "emptyTable": "Tabloda herhangi bir veri mevcut değil",
@@ -244,7 +245,58 @@
                 "removeError": "Görünüm silinemedi"
             }
         },
-        "order":[[4,"desc"]]
-    
+        "order": [[4, "desc"]]
+
     });
-})
+    //DateTable
+    const categories = [
+        {
+            name: 'C++',
+            viewCount:'18000'
+        },
+        {
+            name: 'Java',
+            viewCount: '24000'
+        },
+        {
+            name: 'Js',
+            viewCount: '28400'
+        },
+        {
+            name: 'PHP',
+            viewCount: '26000'
+        },
+        {
+            name: 'Python',
+            viewCount: '21000'
+        },
+    ]
+    //Chart.Js
+    let viewCountContext = $('#viewCountChart');
+    let viewCountChart = new Chart(viewCountContext, {
+        type: 'bar',
+        data: {
+            labels: categories.map(category => category.name),
+            datasets: [
+                {
+                    label: 'Okunma Sayısı',
+                    data: categories.map(category => category.viewCount),
+                    backgroundColor: ['#FAF0E4', '#FF8551', '#009DAE', '#9575DE', '#263A29'],
+                    hoverBorderWidth: 4,
+                    hoverBorderColor:'black'
+                }
+            ]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size:18
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
