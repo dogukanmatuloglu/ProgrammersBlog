@@ -85,5 +85,10 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseNToastNotify();
-app.UseEndpoints(endpoints => { endpoints.MapAreaControllerRoute(name: "Admin", areaName: "Admin", pattern: "Admin/{controller=Home}/{action=Index}/{id?}"); endpoints.MapDefaultControllerRoute(); } );
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapAreaControllerRoute(name: "Admin", areaName: "Admin", pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapDefaultControllerRoute();
+    endpoints.MapControllerRoute(name: "Article", pattern: "{title}/{articleId}", defaults: new { controller = "Article", action = "Detail" });
+});
 app.Run();
