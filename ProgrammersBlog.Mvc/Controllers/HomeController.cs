@@ -9,6 +9,7 @@ using System.Buffers;
 
 namespace ProgrammersBlog.Mvc.Controllers
 {
+    [Route("/")]
     public class HomeController : Controller
     {
         private readonly IArticleService _articleService;
@@ -25,20 +26,23 @@ namespace ProgrammersBlog.Mvc.Controllers
             _aboutUsPageInfoWriter = aboutUsPageInfoWriter;
         }
 
-
+        [Route("index")]
+        [Route("anasayfa")]
+        [Route("")]
         public async Task<IActionResult> Index(int? categoryId,int currentPage=1,int pageSize=5,bool isAscending=false)
         {
             var articlesResult = categoryId == null ? await _articleService.GetAllByPagingAsync(null, currentPage, pageSize,isAscending) : await _articleService.GetAllByPagingAsync(categoryId.Value, currentPage, pageSize,isAscending);
             return View(articlesResult.Data);          
 
         }
-
+        [Route("hakkimizda")]
+        [Route("hakkinda")]
         public IActionResult About()
         {
           
             return View(_aboutUsPageInfo);
         }
-
+        [Route("iletisim")]
         public IActionResult Contact()
         {
             return View();
